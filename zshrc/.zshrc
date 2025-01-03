@@ -146,7 +146,7 @@ zstyle ":completion:*:commands" rehash 1
 bindkey -v
 
 alias ss='source ~/.zshrc'
-alias oh='cd ~/ && ls && echo "                                              Went back home"'
+alias oh='cd ~/ && ls' 
 
 alias project='cd ~/ && cd /Users/nguyenthong/Study/Code && ls'
 eval "$(zoxide init zsh)"
