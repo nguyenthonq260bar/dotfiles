@@ -22,3 +22,6 @@ function ReplaceAgreeWord()
     vim.cmd(":%s/" ..word.. "/" ..new_name.."/gc")
   end
 end
+
+
+

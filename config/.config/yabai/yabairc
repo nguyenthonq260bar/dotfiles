@@ -10,7 +10,7 @@ yabai -m config top_padding 0
 yabai -m config bottom_padding 0
 yabai -m config left_padding 0 
 yabai -m config right_padding 0 
-yabai -m config window_gap 5
+yabai -m config window_gap 3 
 
 # mouse settings
 
@@ -46,4 +46,4 @@ yabai -m rule --add app="app" display=2
 yabai -m rule --apply
 
 
-yabai -m config external_bar all:32:0
+yabai -m config external_bar all:0:0

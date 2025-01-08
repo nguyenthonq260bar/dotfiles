@@ -2,12 +2,17 @@ local mason = require('mason')
 local lspconfig = require('lspconfig')
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 local mason_lspconfig = require("mason-lspconfig")
-local util = require('lspconfig.util')
 
 
 
-mason.setup()
--- Cấu hình Mason LSP
+mason.setup({
+    ui = {
+       border = "rounded", -- Tùy chọn giao diện
+    },
+})
+
+
+
 mason_lspconfig.setup({
   ensure_installed = { 'html', 'cssls', 'pyright', 'lua_ls' },
 })
@@ -53,13 +58,6 @@ lspconfig.lua_ls.setup {
     },
   },
 }
-
-
-
-
-
-
-
 
 -- Cấu hình LSP cho HTML
 lspconfig.html.setup{

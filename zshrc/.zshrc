@@ -19,6 +19,7 @@ export PATH="/usr/local/bin:$PATH"
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
+
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
 # a theme from this variable instead of looking in $ZSH/themes/
@@ -141,8 +142,6 @@ zstyle ":completion:*:commands" rehash 1
 
 
 
-
-
 bindkey -v
 
 alias ss='source ~/.zshrc'
@@ -156,7 +155,6 @@ alias cd='z'
 source <(fzf --zsh)
 
 
-alias nf='nvim $(fzf -m --height 100% --preview="bat --color=always {}")'
 alias ls="eza --icons=always"
 alias gs="git status"
 alias :q="exit"
@@ -169,12 +167,13 @@ alias stopyb="yabai --stop-service"
 alias zshconf="nvim ~/.zshrc"
 alias nvimconf="nvim ~/.config/nvim"
 
+
+alias nf='nvim $(fzf -m --height 100% --preview="bat --color=always {}" --color=fg:#d0d0d0,fg+:#000000,bg:-1,bg+:#00ffea --color=hl:#eb9feb,hl+:#ff00f7,info:#d9ff00,marker:#00ffff --color=prompt:#ff00ae,spinner:#af5fff,pointer:#ff00e1,header:#87afaf --color=gutter:#151515,border:#fff9fe,separator:#ffffff,preview-fg:#f5f5f5 --color=label:#aeaeae,query:#00ffd4 --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> " --marker=">" --pointer="◆" --separator="─" --scrollbar="│")'
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --height=40%
-  --color=fg:#d0d0d0,fg+:#d0d0d0,bg:#121212,bg+:#262626
-  --color=hl:#00ff66,hl+:#1e95bd,info:#afaf87,marker:#87ff00
-  --color=prompt:#d7005f,spinner:#af5fff,pointer:#af5fff,header:#87afaf
-  --color=border:#ffffff,preview-border:#ffffff,label:#aeaeae,query:#d9d9d9
+  --color=fg:#d0d0d0,fg+:#000000,bg:-1,bg+:#00ffea
+  --color=hl:#eb9feb,hl+:#ff00f7,info:#d9ff00,marker:#00ffff
+  --color=prompt:#ff00ae,spinner:#af5fff,pointer:#ff00e1,header:#87afaf
+  --color=gutter:#151515,border:#fff9fe,separator:#ffffff,preview-fg:#f5f5f5
+  --color=label:#aeaeae,query:#00ffd4
   --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
   --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
-

@@ -6,13 +6,17 @@ end
 vim.g.loaded = 1
 vim.g.loaded_netrwPlugin = 1
 
+
+
 vim.cmd([[ highlight NvimTreeIndentMarker guifg=#ffffff]])
 vim.cmd([[ highlight NvimTreeWinSeparator guifg=#ffffff guibg=None]])
-vim.cmd([[ highlight VertSlip guifg=#ffffff guibg=#ffffff]])
-vim.cmd([[ highlight VertSplit guifg=#ffffff guibg=None]])
 
 
 
+
+
+
+vim.cmd([[ highlight VertSplit guifg=#ffffff guibg=#ff0000 ]])  -- Viền màu trắng, nền đỏ
 
 
 nvimtree.setup({
