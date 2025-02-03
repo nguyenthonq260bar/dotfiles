@@ -17,7 +17,7 @@ telescope.setup({
 		layout_config = {
 			width = 0.8, -- Đặt chiều rộng cửa sổ
 			height = 0.75, -- Đặt chiều cao cửa sổ
-			preview_width = 0.4, -- Đặt chiều rộng phần xem trước (tăng kích thước)
+			preview_width = 0.55, -- Đặt chiều rộng phần xem trước (tăng kích thước)
 		},
 		color_devicons = true, -- Hiển thị biểu tượng cho các file
 	},

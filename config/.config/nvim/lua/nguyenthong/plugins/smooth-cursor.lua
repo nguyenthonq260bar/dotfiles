@@ -1,9 +1,7 @@
 local status, cursor = pcall(require, "smear_cursor")
 
 if not status then
-  return
+	return
 end
 
 cursor.setup()
-
-

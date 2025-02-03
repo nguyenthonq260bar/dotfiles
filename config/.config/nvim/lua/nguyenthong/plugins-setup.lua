@@ -77,9 +77,23 @@ return packer.startup(function(use)
 			require("telescope").setup({})
 		end,
 	})
-
-	-- Công cụ chỉnh sửa
-	use("tpope/vim-surround") -- Quản lý dấu ngoặc nhanh chóng
+	-- Công cụ chỉnh sửa -- surround
+	--   surr*ound_words             ysiw)           (surround_words)
+	--   *make strings               ys$"            "make strings"
+	--   [delete ar*ound me!]        ds]             delete around me!
+	--   remove <b>HTML t*ags</b>    dst             remove HTML tags
+	--   'change quot*es'            cs'"            "change quotes"
+	--   <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
+	--   delete(functi*on calls)     dsf             function calls
+	use({
+		"kylechui/nvim-surround",
+		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
+		config = function()
+			require("nvim-surround").setup({
+				-- Configuration here, or leave empty to use defaults
+			})
+		end,
+	})
 	use("vim-scripts/ReplaceWithRegister") -- Thay thế văn bản với nội dung trong register
 	use("numToStr/Comment.nvim") -- Bình luận/uncomment code nhanh chóng
 
@@ -109,15 +123,48 @@ return packer.startup(function(use)
 	})
 
 	--debugger
-	use({ "mfussenegger/nvim-dap" })
+	use({
+		"mfussenegger/nvim-dap",
+		"leoluz/nvim-dap-go",
+	})
 	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } })
 
 	use("sphamba/smear-cursor.nvim")
 
+	use({
+		"gen740/SmoothCursor.nvim",
+		config = function()
+			require("smoothcursor").setup()
+		end,
+	})
+
 	use("lukas-reineke/indent-blankline.nvim")
 	use("gelguy/wilder.nvim")
-
 	use("max397574/better-escape.nvim")
+	use("comfysage/evergarden")
+	--plugin for obsidian
+	use({
+		"epwalsh/obsidian.nvim",
+		tag = "*",
+		requires = {
+			"nvim-lua/plenary.nvim",
+		},
+	})
+	use({
+		"MeanderingProgrammer/render-markdown.nvim",
+		after = { "nvim-treesitter" },
+		requires = { "echasnovski/mini.nvim", opt = true }, -- if you use the mini.nvim suite
+		-- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
+		-- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+		config = function()
+			require("render-markdown").setup({})
+		end,
+	})
+	--go
+	use({
+		"devkvlt/go-tags.nvim",
+		requires = { "nvim-treesitter/nvim-treesitter" },
+	})
 
 	if packer_bootstrap then
 		require("packer").sync()

@@ -1,33 +1,42 @@
-require("nguyenthong.core.function_keymap")
+local utils = require("nguyenthong.core.function_keymap")
 
 vim.g.mapleader = " "
 local keymap = vim.keymap -- for conciseness
 
 vim.api.nvim_set_keymap("n", "a", "", { noremap = true, silent = true })
 --general keymaps
-
-keymap.set("n", "x", '"_x')
+keymap.set({ "n", "v" }, "x", '"_x')
+keymap.set("n", "dd", '"_dd')
 
 keymap.set("i", "jk", "<ESC>")
 
 keymap.set("n", "QQ", "<cmd>:q!<CR>", { noremap = true, silent = true })
 keymap.set("n", "WQ", "<cmd>:wq<CR>", { noremap = true, silent = true })
+keymap.set("n", "WW", "<cmd>:w<CR>", { noremap = true, silent = true })
 
 -- keymap.set("n", "j", "jzz", {noremap = true,  silent = true})
 -- keymap.set("n", "k", "kzz", {noremap = true, silent = true})
+
+--lspconfig
+vim.keymap.set("n", "-", vim.lsp.buf.hover, { buffer = 0 }) -- Hiển thị tài liệu
+vim.keymap.set("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = 0 }) -- Hiển thị chữ ký hàm khi đang gõ
+
+keymap.set("n", "N", "Nzz", { noremap = true, silent = true })
+keymap.set("n", "n", "nzz", { noremap = true, silent = true })
 
 keymap.set("n", "J", "G", { noremap = true, silent = true })
 keymap.set("n", "K", "gg", { noremap = true, silent = true })
 
 keymap.set("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 keymap.set("v", "<Tab>", ">gv", { noremap = true, silent = true })
-keymap.set("v", "i", "<ESC><ESC>", { noremap = true, silent = true })
+--keymap.set("v", "i", "<ESC><ESC>", { noremap = true, silent = true })
 keymap.set("v", "n", "<ESC>", { noremap = true, silent = true })
 
 --go to definition fuction
-keymap.set("n", "<leader>o", "<C-o>", { noremap = true, silent = true })
-keymap.set("n", "<leader>]", "<C-]>", { noremap = true, silent = true })
+keymap.set("n", "<C-o>", "<C-o>zz", { noremap = true, silent = true })
+--keymap.set("n", "<leader>]", "<C-]>", { noremap = true, silent = true })
 
+--slip window
 keymap.set("n", "<leader>sv", "<C-w>v")
 keymap.set("n", "<leader>sh", "<C-w>s")
 keymap.set("n", "<leader>se", "<C-w>=")
@@ -52,6 +61,7 @@ keymap.set("v", "L", "$", { noremap = true, silent = true })
 keymap.set("v", "H", "^", { noremap = true, silent = true })
 keymap.set("v", "O", "%", { noremap = true, silent = true })
 
+vim.api.nvim_set_keymap("x", "<leader>p", '"_dP', { noremap = true, silent = true })
 --vim-maximizer
 keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
 
@@ -91,6 +101,9 @@ vim.api.nvim_set_keymap("n", "<leader>ra", ":lua ReplaceSelectWord()<CR>", { nor
 
 --replace rw - replace wait to agree or disagree
 vim.api.nvim_set_keymap("n", "<leader>rw", ":lua ReplaceAgreeWord()<CR>", { noremap = true, silent = true })
+
+--
+vim.api.nvim_set_keymap("n", "<leader>fm", ":lua Search_symbol()<CR>", { noremap = true, silent = true })
 
 --debugger
 
@@ -154,3 +167,7 @@ vim.keymap.set("n", "<Leader>ds", function()
 	local widgets = require("dap.ui.widgets")
 	widgets.centered_float(widgets.scopes)
 end)
+
+vim.keymap.set("n", "<leader>tt", function()
+	vim.cmd('normal! vi"')
+end, { noremap = true, silent = true })

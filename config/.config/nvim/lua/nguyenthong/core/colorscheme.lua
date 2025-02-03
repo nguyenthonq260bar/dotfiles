@@ -6,7 +6,7 @@ local colorscheme = "catppuccin"
 -- theme4: neofusion
 -- theme5: onedark
 -- theme6: oxocarbon
-
+-- theme7: evergarden
 local status, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 
 if not status then
@@ -68,12 +68,10 @@ require("catppuccin").setup({
 	},
 })
 
--- setup must be called before loading
-vim.cmd.colorscheme("catppuccin")
 -- Lua
 require("onedark").setup({
 	-- Main options --
-	style = "darker", -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
+	style = "cool", -- Default theme style. Choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
 	transparent = true, -- Show/hide background
 	term_colors = true, -- Change terminal color as per the selected theme style
 	ending_tildes = false, -- Show the end-of-buffer tildes. By default they are hidden
@@ -109,4 +107,31 @@ require("onedark").setup({
 		undercurl = true, -- use undercurl instead of underline for diagnostics
 		background = true, -- use background color for virtual text
 	},
+})
+
+require("evergarden").setup({
+	transparent_background = false,
+	variant = "soft", -- 'hard'|'medium'|'soft'
+	override_terminal = true,
+	style = {
+		tabline = { "reverse" },
+		search = { "italic" },
+		incsearch = { "reverse" },
+		types = { "italic" },
+		keyword = { "italic" },
+		comment = { "italic" },
+		sign = { highlight = false },
+	},
+	integrations = {
+		blink_cmp = true,
+		cmp = true,
+		gitsigns = true,
+		indent_blankline = { enable = true, scope_color = "green" },
+		nvimtree = true,
+		rainbow_delimiters = true,
+		symbols_outline = true,
+		telescope = true,
+		which_key = true,
+	},
+	overrides = {}, -- add custom overrides
 })

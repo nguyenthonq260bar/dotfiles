@@ -36,6 +36,18 @@ local colors = {
   yellow = '#fff530',
   grey2  = '#353835',
 }
+
+function SearchCount()
+	local search = vim.fn.searchcount({ maxcount = 0 }) -- maxcount = 0 makes the number not be capped at 99
+	local searchCurrent = search.current
+	local searchTotal = search.total
+	if searchCurrent > 0 and vim.v.hlsearch ~= 0 then
+		return "Search: " .. vim.fn.getreg("/") .. " [" .. searchCurrent .. "/" .. searchTotal .. "]"
+	else
+		return ""
+	end
+end
+
 local bubbles_theme = {
 	normal = {
 		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
@@ -54,18 +66,32 @@ local bubbles_theme = {
 	},
 }
 
+local function dap_status()
+	local dap = require("dap")
+	return dap.status()
+end
+
+local function is_dap_active()
+	if not package.loaded.dap then
+		return false
+	end
+	local session = require("dap").session()
+	return session ~= nil
+end
+
 lualine.setup({
 	options = {
 		theme = bubbles_theme,
-		component_separators = { left = "", right = "", use_mode_colors = true },
+		component_separators = { left = "|", right = "|", use_mode_colors = true },
 		section_separators = { left = "", right = "" },
 		globalstatus = true,
 	},
 	sections = {
 		lualine_a = {
+			{ "filetype" },
 			{
 				"mode",
-				separator = { right = "" },
+				separator = { right = "" },
 				right_padding = 2,
 				fmt = function(s)
 					return mode_map[s] or s
@@ -73,43 +99,30 @@ lualine.setup({
 			},
 		},
 		lualine_b = {
-			"branch",
-			{ "diff", symbols = { added = " 􀣝  ", modified = "~", removed = "􀢂  " } },
-		},
-		lualine_c = {
+			{ "diff", symbols = { added = "+", modified = "~", removed = "-" } },
+			{ "filename", path = 0 },
 			{
-				function()
-					return require("dap").status()
-				end,
+				dap_status,
 				icon = { " ", color = { fg = "#e7c664" } },
-				cond = function()
-					if not package.loaded.dap then
-						return false
-					end
-					local session = require("dap").session()
-					return session ~= nil
-				end,
+				cond = is_dap_active,
 			},
 		},
+		lualine_c = {},
 		lualine_x = {},
-		lualine_y = {},
+		lualine_y = { { "tabs" } },
 		lualine_z = {
+			{ "location" },
 			{
-				"buffers",
-				separator = { left = "" },
-				left_padding = 2,
-				symbols = {
-					modified = " 􀈌  ",
-					alternate_file = " 􁓔  ",
-					directory = "  ",
-				},
-				use_mode_colors = true,
+				SearchCount,
+				color = { fg = "#FF5733", gui = "bold" },
 			},
+			{ "progress" },
+			{ "branch" },
 		},
 	},
 
 	inactive_sections = {
-		lualine_a = { "filename" },
+		lualine_a = {},
 		lualine_b = {},
 		lualine_c = {},
 		lualine_x = {},

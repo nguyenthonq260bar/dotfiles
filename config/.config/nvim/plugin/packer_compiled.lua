@@ -49,8 +49,8 @@ local function save_profiles(threshold)
 end
 
 time([[Luarocks path setup]], true)
-local package_path_str = "/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1732813678/share/lua/5.1/?.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1732813678/share/lua/5.1/?/init.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1732813678/lib/luarocks/rocks-5.1/?.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1732813678/lib/luarocks/rocks-5.1/?/init.lua"
-local install_cpath_pattern = "/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1732813678/lib/lua/5.1/?.so"
+local package_path_str = "/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1734355927/share/lua/5.1/?.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1734355927/share/lua/5.1/?/init.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1734355927/lib/luarocks/rocks-5.1/?.lua;/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1734355927/lib/luarocks/rocks-5.1/?/init.lua"
+local install_cpath_pattern = "/Users/nguyenthong/.cache/nvim/packer_hererocks/2.1.1734355927/lib/lua/5.1/?.so"
 if not string.find(package.path, package_path_str, 1, true) then
   package.path = package.path .. ';' .. package_path_str
 end
@@ -88,6 +88,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/ReplaceWithRegister",
     url = "https://github.com/vim-scripts/ReplaceWithRegister"
+  },
+  ["SmoothCursor.nvim"] = {
+    config = { "\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17smoothcursor\frequire\0" },
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/SmoothCursor.nvim",
+    url = "https://github.com/gen740/SmoothCursor.nvim"
   },
   ["alpha-nvim"] = {
     loaded = true,
@@ -134,10 +140,20 @@ _G.packer_plugins = {
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/conform.nvim",
     url = "https://github.com/stevearc/conform.nvim"
   },
+  evergarden = {
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/evergarden",
+    url = "https://github.com/comfysage/evergarden"
+  },
   ["friendly-snippets"] = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/friendly-snippets",
     url = "https://github.com/rafamadriz/friendly-snippets"
+  },
+  ["go-tags.nvim"] = {
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/go-tags.nvim",
+    url = "https://github.com/devkvlt/go-tags.nvim"
   },
   ["indent-blankline.nvim"] = {
     loaded = true,
@@ -158,6 +174,12 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/mason.nvim",
     url = "https://github.com/williamboman/mason.nvim"
+  },
+  ["mini.nvim"] = {
+    loaded = false,
+    needs_bufread = false,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/opt/mini.nvim",
+    url = "https://github.com/echasnovski/mini.nvim"
   },
   ["neofusion.nvim"] = {
     loaded = true,
@@ -182,6 +204,11 @@ _G.packer_plugins = {
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-dap",
     url = "https://github.com/mfussenegger/nvim-dap"
   },
+  ["nvim-dap-go"] = {
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-dap-go",
+    url = "https://github.com/leoluz/nvim-dap-go"
+  },
   ["nvim-dap-ui"] = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-dap-ui",
@@ -197,6 +224,12 @@ _G.packer_plugins = {
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-nio",
     url = "https://github.com/nvim-neotest/nvim-nio"
   },
+  ["nvim-surround"] = {
+    config = { "\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0" },
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-surround",
+    url = "https://github.com/kylechui/nvim-surround"
+  },
   ["nvim-tree.lua"] = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-tree.lua",
@@ -211,6 +244,11 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/nvim-web-devicons",
     url = "https://github.com/kyazdani42/nvim-web-devicons"
+  },
+  ["obsidian.nvim"] = {
+    loaded = true,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/obsidian.nvim",
+    url = "https://github.com/epwalsh/obsidian.nvim"
   },
   ["onedark.nvim"] = {
     loaded = true,
@@ -231,6 +269,14 @@ _G.packer_plugins = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/plenary.nvim",
     url = "https://github.com/nvim-lua/plenary.nvim"
+  },
+  ["render-markdown.nvim"] = {
+    config = { "\27LJ\2\nA\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\20render-markdown\frequire\0" },
+    load_after = {},
+    loaded = true,
+    needs_bufread = false,
+    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/opt/render-markdown.nvim",
+    url = "https://github.com/MeanderingProgrammer/render-markdown.nvim"
   },
   ["smear-cursor.nvim"] = {
     loaded = true,
@@ -273,11 +319,6 @@ _G.packer_plugins = {
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/vim-nightfly-guicolors",
     url = "https://github.com/bluz71/vim-nightfly-guicolors"
   },
-  ["vim-surround"] = {
-    loaded = true,
-    path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/vim-surround",
-    url = "https://github.com/tpope/vim-surround"
-  },
   ["vim-tmux-navigator"] = {
     loaded = true,
     path = "/Users/nguyenthong/.local/share/nvim/site/pack/packer/start/vim-tmux-navigator",
@@ -291,10 +332,27 @@ _G.packer_plugins = {
 }
 
 time([[Defining packer_plugins]], false)
+-- Config for: nvim-surround
+time([[Config for nvim-surround]], true)
+try_loadstring("\27LJ\2\n?\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\18nvim-surround\frequire\0", "config", "nvim-surround")
+time([[Config for nvim-surround]], false)
 -- Config for: telescope.nvim
 time([[Config for telescope.nvim]], true)
 try_loadstring("\27LJ\2\n;\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\14telescope\frequire\0", "config", "telescope.nvim")
 time([[Config for telescope.nvim]], false)
+-- Config for: SmoothCursor.nvim
+time([[Config for SmoothCursor.nvim]], true)
+try_loadstring("\27LJ\2\n:\0\0\3\0\3\0\0066\0\0\0'\2\1\0B\0\2\0029\0\2\0B\0\1\1K\0\1\0\nsetup\17smoothcursor\frequire\0", "config", "SmoothCursor.nvim")
+time([[Config for SmoothCursor.nvim]], false)
+-- Load plugins in order defined by `after`
+time([[Sequenced loading]], true)
+vim.cmd [[ packadd nvim-treesitter ]]
+vim.cmd [[ packadd render-markdown.nvim ]]
+
+-- Config for: render-markdown.nvim
+try_loadstring("\27LJ\2\nA\0\0\3\0\3\0\a6\0\0\0'\2\1\0B\0\2\0029\0\2\0004\2\0\0B\0\2\1K\0\1\0\nsetup\20render-markdown\frequire\0", "config", "render-markdown.nvim")
+
+time([[Sequenced loading]], false)
 vim.cmd [[augroup packer_load_aucmds]]
 vim.cmd [[au!]]
   -- Event lazy-loads

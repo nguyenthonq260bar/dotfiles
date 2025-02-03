@@ -1,9 +1,13 @@
-# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# Initialization code that may require console input (password prompts, [y/n]
-# confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# # Initialization code that may require console input (password prompts, [y/n]
+# # confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
+
+eval "$(starship init zsh)"
+
+
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -17,7 +21,7 @@ export PATH="/usr/local/bin:$PATH"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_THEME=""
 
 
 # Set list of themes to pick from when loading at random
@@ -119,27 +123,17 @@ source /opt/homebrew/Cellar/zsh-autosuggestions/0.7.1/share/zsh-autosuggestions/
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/opt/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/opt/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/opt/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/opt/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 zstyle ":completion:*:commands" rehash 1
 
+
+
+#
+export GOPATH=$HOME/go
+export GOROOT=/usr/local/go  
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 
 bindkey -v
@@ -154,8 +148,22 @@ alias cd='z'
 
 source <(fzf --zsh)
 
-
+# has character "a" - all include ."file"
+# has character  "t" - tree include show tree file
+alias l="eza --icons=always"
 alias ls="eza --icons=always"
+alias ll="eza -lg --icons=always"
+alias la="eza -lag --icons=always"
+alias lt="eza -lTg  --icons=always"
+alias lt1="eza -lTg --level=1 --icons=always"
+alias lt2="eza -lTg --level=2 --icons=always"
+alias lt3="eza -lTg --level=3 --icons=always"
+alias lta="eza -lTag --icons=always"
+alias lta1="eza -lTag --level=1 --icons=always"
+alias lta2="eza -lTag --level=2 --icons=always"
+alias lta3="eza -lTag  --level=3 --icons=always"
+
+
 alias gs="git status"
 alias :q="exit"
 alias ll="ls -l"
@@ -166,7 +174,7 @@ alias stopyb="yabai --stop-service"
 #-----------------------------------------------------
 alias zshconf="nvim ~/.zshrc"
 alias nvimconf="nvim ~/.config/nvim"
-
+alias newtmux="tmux new -s"
 
 alias nf='nvim $(fzf -m --height 100% --preview="bat --color=always {}" --color=fg:#d0d0d0,fg+:#000000,bg:-1,bg+:#00ffea --color=hl:#eb9feb,hl+:#ff00f7,info:#d9ff00,marker:#00ffff --color=prompt:#ff00ae,spinner:#af5fff,pointer:#ff00e1,header:#87afaf --color=gutter:#151515,border:#fff9fe,separator:#ffffff,preview-fg:#f5f5f5 --color=label:#aeaeae,query:#00ffd4 --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> " --marker=">" --pointer="◆" --separator="─" --scrollbar="│")'
 export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'

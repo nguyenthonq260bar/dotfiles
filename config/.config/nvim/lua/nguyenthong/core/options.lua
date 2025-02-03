@@ -6,6 +6,8 @@ opt.relativenumber = true
 opt.number = true
 opt.fillchars = { eob = " " }
 
+vim.opt.conceallevel = 1
+
 --command defaults
 vim.cmd([[autocmd VimEnter * if !argc() | Alpha | endif]])
 
@@ -48,6 +50,7 @@ opt.background = "dark"
 opt.signcolumn = "yes"
 
 --backspace
+opt.compatible = false
 opt.backspace = "indent,eol,start"
 
 --clipboard
@@ -58,3 +61,5 @@ opt.splitright = true
 opt.splitbelow = true
 
 opt.iskeyword:append("-")
+
+vim.g.loaded_perl_provider = 0

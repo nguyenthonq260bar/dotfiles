@@ -17,6 +17,11 @@ config.macos_window_background_blur = 20
 
 config.keys = {
 	{ key = "j", mods = "ALT", action = wezterm.action.SendString("") },
+	{
+		key = ";",
+		mods = "CTRL|SHIFT",
+		action = wezterm.action.ActivateCopyMode,
+	},
 }
 config.use_ime = true
 

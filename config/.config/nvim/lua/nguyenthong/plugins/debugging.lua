@@ -1,5 +1,6 @@
 local dap = require("dap")
 local dapui = require("dapui")
+local dapgo = require("dap-go")
 -- Dùng debugpy được cài bởi Mason
 local mason_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
 
@@ -22,6 +23,16 @@ dap.configurations.python = {
 		end,
 	},
 }
+
+dapgo.setup({
+	dap_configurations = {
+
+		type = "go",
+		name = "Debug",
+		request = "launch",
+		program = "${file}",
+	},
+})
 
 dapui.setup({
 	icons = { expanded = "▾", collapsed = "▸", current_frame = "▸" },
