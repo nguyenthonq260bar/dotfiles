@@ -4,11 +4,16 @@ if not status then
 end
 
 obsidian.setup({
-	dir = "/Users/nguyenthong/Work",
+	dir = "/Users/nguyenthong/note",
 	workspace = {
-		name = "Work",
-		path = "~/Work",
+		name = "note",
+		path = "~/note",
 	},
+
+	daily_notes = {
+		folder = "notes/dailies",
+	},
+
 	log_level = vim.log.levels.ERROR,
 	ui = {
 		enable = true, -- set to false to disable all additional syntax features

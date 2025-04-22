@@ -6,6 +6,8 @@ local config = wezterm.config_builder()
 config.color_schemes = themes
 config.color_scheme = "lovelace"
 
+config.font = wezterm.font("Maple Mono")
+
 config.font = wezterm.font_with_fallback({
 	"Maple Mono",
 	"Hack Nerd Font",
@@ -25,7 +27,7 @@ config.keys = {
 }
 config.use_ime = true
 
-config.font_size = 19
+config.font_size = 14.0
 
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"

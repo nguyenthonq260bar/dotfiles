@@ -19,7 +19,7 @@ dap.configurations.python = {
 		name = "Launch file",
 		program = "${file}", -- File hiện tại
 		pythonPath = function()
-			return "python" -- Thay đổi nếu dùng virtual environment hoặc python khác
+			return mason_path -- Thay đổi nếu dùng virtual environment hoặc python khác
 		end,
 	},
 }

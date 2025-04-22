@@ -17,6 +17,9 @@ export ZSH="$HOME/.oh-my-zsh"
 
 export PATH="/usr/local/bin:$PATH"
 
+export EDITOR="nvim"
+
+
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
@@ -139,7 +142,7 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 bindkey -v
 
 alias ss='source ~/.zshrc'
-alias oh='cd ~/ && ls' 
+alias oh='cd ~/ && cat ~/dotfiles/wezterm/.wezterm_ascii.txt && l' 
 
 alias project='cd ~/ && cd /Users/nguyenthong/Study/Code && ls'
 eval "$(zoxide init zsh)"
@@ -176,12 +179,24 @@ alias zshconf="nvim ~/.zshrc"
 alias nvimconf="nvim ~/.config/nvim"
 alias newtmux="tmux new -s"
 
-alias nf='nvim $(fzf -m --height 100% --preview="bat --color=always {}" --color=fg:#d0d0d0,fg+:#000000,bg:-1,bg+:#00ffea --color=hl:#eb9feb,hl+:#ff00f7,info:#d9ff00,marker:#00ffff --color=prompt:#ff00ae,spinner:#af5fff,pointer:#ff00e1,header:#87afaf --color=gutter:#151515,border:#fff9fe,separator:#ffffff,preview-fg:#f5f5f5 --color=label:#aeaeae,query:#00ffd4 --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> " --marker=">" --pointer="◆" --separator="─" --scrollbar="│")'
-export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
-  --color=fg:#d0d0d0,fg+:#000000,bg:-1,bg+:#00ffea
-  --color=hl:#eb9feb,hl+:#ff00f7,info:#d9ff00,marker:#00ffff
-  --color=prompt:#ff00ae,spinner:#af5fff,pointer:#ff00e1,header:#87afaf
-  --color=gutter:#151515,border:#fff9fe,separator:#ffffff,preview-fg:#f5f5f5
-  --color=label:#aeaeae,query:#00ffd4
-  --border="rounded" --border-label="" --preview-window="border-rounded" --prompt="> "
-  --marker=">" --pointer="◆" --separator="─" --scrollbar="│"'
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
+--color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
+--color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 \
+--color=selected-bg:#494d64 \
+--multi"
+
+
+
+if [[ $TERM_PROGRAM == "WezTerm" ]]; then
+  cat ~/dotfiles/wezterm/.wezterm_ascii.txt
+fi
+
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+		builtin cd -- "$cwd"
+	fi
+	rm -f -- "$tmp"
+}
