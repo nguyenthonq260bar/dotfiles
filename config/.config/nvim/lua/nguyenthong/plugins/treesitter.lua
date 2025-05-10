@@ -18,3 +18,10 @@ treesitter.setup({
 		enable = true,
 	},
 })
+
+-- Cấu hình trong file init.lua
+vim.g.rainbow_delimiters = require("rainbow-delimiters")
+
+vim.api.nvim_set_hl(0, "@variable", { italic = true })
+-- Comment in nghiêng và mờ
+vim.api.nvim_set_hl(0, "@comment", { italic = true, fg = "#888888" })

@@ -64,4 +64,13 @@ end
 
 vim.api.nvim_create_user_command("Floaterminal", toggle_terminal, {})
 
-vim.keymap.set({ "t", "n" }, "|", toggle_terminal)
+--vim.keymap.set({ "t", "n" }, "|", toggle_terminal)
+
+--open terminal
+vim.keymap.set("n", "|", function()
+	vim.cmd("split") -- Chia ngang
+	vim.cmd("terminal") -- Mở terminal
+	local total = vim.o.lines
+	local height = math.floor(total * 0.25)
+	vim.cmd("resize " .. height) -- Resize cửa sổ terminal
+end, { noremap = true, silent = true })

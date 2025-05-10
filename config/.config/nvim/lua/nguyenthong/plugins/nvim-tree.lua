@@ -16,7 +16,7 @@ nvimtree.setup({
 		float = {
 			enable = false,
 		},
-		side = "right",
+		side = "left",
 	},
 	renderer = {
 		highlight_opened_files = "none",

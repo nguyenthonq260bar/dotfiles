@@ -10,22 +10,25 @@ keymap.set("n", "dd", '"_dd')
 
 keymap.set("i", "jk", "<ESC>")
 
-keymap.set("n", "QQ", "<cmd>:q!<CR>", { noremap = true, silent = true })
-keymap.set("n", "WQ", "<cmd>:wq<CR>", { noremap = true, silent = true })
-keymap.set("n", "WW", "<cmd>:w<CR>", { noremap = true, silent = true })
+-- keymap.set("n", "QQ", "<cmd>:q!<CR>", { noremap = true, silent = true })
+-- keymap.set("n", "WQ", "<cmd>:wq<CR>", { noremap = true, silent = true })
+-- keymap.set("n", "WW", "<cmd>:w<CR>", { noremap = true, silent = true })
 
 -- keymap.set("n", "j", "jzz", {noremap = true,  silent = true})
 -- keymap.set("n", "k", "kzz", {noremap = true, silent = true})
 
 --lspconfig
-vim.keymap.set("n", "-", vim.lsp.buf.hover, { buffer = 0 }) -- Hiển thị tài liệu
-vim.keymap.set("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = 0 }) -- Hiển thị chữ ký hàm khi đang gõ
+keymap.set("n", "-", vim.lsp.buf.hover, { buffer = 0 }) -- Hiển thị tài liệu
+keymap.set("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = 0 }) -- Hiển thị chữ ký hàm khi đang gõ
 
 keymap.set("n", "N", "Nzz", { noremap = true, silent = true })
+
 keymap.set("n", "n", "nzz", { noremap = true, silent = true })
 
-keymap.set("n", "J", "G", { noremap = true, silent = true })
-keymap.set("n", "K", "gg", { noremap = true, silent = true })
+keymap.set("n", "<Leader>nd", "<cmd>NoiceDismiss<CR>", { noremap = true, silent = true })
+
+-- keymap.set("n", "J", "G", { noremap = true, silent = true })
+-- keymap.set("n", "K", "gg", { noremap = true, silent = true })
 
 keymap.set("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 keymap.set("v", "<Tab>", ">gv", { noremap = true, silent = true })
@@ -36,11 +39,23 @@ keymap.set("v", "n", "<ESC>", { noremap = true, silent = true })
 keymap.set("n", "<C-o>", "<C-o>zz", { noremap = true, silent = true })
 --keymap.set("n", "<leader>]", "<C-]>", { noremap = true, silent = true })
 
+--keymap updown quickly
+keymap.set("n", "<C-d>", "<C-d>zz", { noremap = true, silent = true })
+keymap.set("n", "<C-u>", "<C-u>zz", { noremap = true, silent = true })
+
 --slip window
 keymap.set("n", "<leader>sv", "<C-w>v")
 keymap.set("n", "<leader>sh", "<C-w>s")
 keymap.set("n", "<leader>se", "<C-w>=")
 keymap.set("n", "<leader>sx", ":close<CR>")
+
+-- Tăng / giảm chiều rộng
+keymap.set("n", "<S-Right>", ":vertical resize +5<CR>")
+keymap.set("n", "<S-Left>", ":vertical resize -5<CR>")
+
+-- Tăng / giảm chiều cao
+keymap.set("n", "<S-Up>", ":resize +2<CR>")
+keymap.set("n", "<S-Down>", ":resize -2<CR>")
 
 --tab & buffers
 keymap.set("n", "<leader>nh", ":nohl<CR>")
@@ -53,13 +68,13 @@ keymap.set("n", "<Leader>,", ":bprev<CR>", { noremap = true, silent = true })
 keymap.set("n", "<Leader>.", ":bnext<CR>", { noremap = true, silent = true })
 keymap.set("n", "<Leader>-", ":bd!<CR>", { noremap = true, silent = true })
 
-keymap.set("n", "{", ":tabp<CR>", { noremap = true, silent = true })
-keymap.set("n", "}", ":tabn<CR>", { noremap = true, silent = true })
+-- keymap.set("n", "{", ":tabp<CR>", { noremap = true, silent = true })
+-- keymap.set("n", "}", ":tabn<CR>", { noremap = true, silent = true })
 
 --visual mode
-keymap.set("v", "L", "$", { noremap = true, silent = true })
-keymap.set("v", "H", "^", { noremap = true, silent = true })
-keymap.set("v", "O", "%", { noremap = true, silent = true })
+-- keymap.set("v", "L", "$", { noremap = true, silent = true })
+-- keymap.set("v", "H", "^", { noremap = true, silent = true })
+-- keymap.set("v", "O", "%", { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap("x", "<leader>p", '"_dP', { noremap = true, silent = true })
 --vim-maximizer
@@ -76,9 +91,9 @@ keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
 keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
 keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>")
 
-keymap.set("n", "L", "$")
-keymap.set("n", "H", "^")
-keymap.set("n", "O", "%")
+-- keymap.set("n", "L", "$")
+-- keymap.set("n", "H", "^")
+-- keymap.set("n", "O", "%")
 
 --buffers
 vim.keymap.set("n", "<leader>q", function()
@@ -123,13 +138,13 @@ end)
 keymap.set("n", "<Leader>dc", function()
 	require("dap").continue()
 end)
-keymap.set("n", "<A-o>", function()
+keymap.set("n", "<A-u>", function()
 	require("dap").step_over()
 end)
 keymap.set("n", "<A-i>", function()
 	require("dap").step_into()
 end)
-keymap.set("n", "<A-u>", function()
+keymap.set("n", "<A-o>", function()
 	require("dap").step_out()
 end)
 

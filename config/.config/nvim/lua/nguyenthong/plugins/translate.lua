@@ -76,14 +76,20 @@ local function translate_from_register()
 	-- Hiển thị kết quả trong một cửa sổ mới
 	local preview_window = create_floating_window({ width = 0.5, height = 0.7 })
 	local buf = preview_window.buf
+	local win = preview_window.win
 	--vim.api.nvim_buf_set_option(buf, "modifiable", true)
 	vim.api.nvim_buf_set_lines(buf, 0, -1, false, vim.split(result, "\n"))
+
+	--bấm q sẽ thoát buffer
+	vim.keymap.set("n", "q", function()
+		vim.api.nvim_win_close(win, true)
+	end, { buffer = buf, nowait = true, silent = true })
 end
 
 -- Tạo lệnh người dùng để gọi chức năng
 vim.api.nvim_create_user_command("TranslateFromRegister", translate_from_register, {})
 
-vim.keymap.set("n", "*", translate_from_register)
+--vim.keymap.set("n", "*", translate_from_register)
 
 vim.keymap.set("n", "<C-p>", function()
 	-- Yanking từ dưới con trỏ (word dưới con trỏ)

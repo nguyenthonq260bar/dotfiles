@@ -5,6 +5,9 @@
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
 
+
+
+export STARSHIP_CONFIG="$HOME/.starship.toml"
 eval "$(starship init zsh)"
 
 
@@ -98,34 +101,6 @@ source /opt/homebrew/Cellar/zsh-autosuggestions/0.7.1/share/zsh-autosuggestions/
 
 
 
-
-
-# User configuration
-
-# export MANPATH="/usr/local/man:$MANPATH"
-
-# You may need to manually set your language environment
-# export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
-
-# Compilation flags
-# export ARCHFLAGS="-arch x86_64"
-
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 
@@ -179,20 +154,26 @@ alias zshconf="nvim ~/.zshrc"
 alias nvimconf="nvim ~/.config/nvim"
 alias newtmux="tmux new -s"
 
-export FZF_DEFAULT_OPTS=" \
---color=bg+:#363a4f,bg:#24273a,spinner:#f4dbd6,hl:#ed8796 \
---color=fg:#cad3f5,header:#ed8796,info:#c6a0f6,pointer:#f4dbd6 \
---color=marker:#b7bdf8,fg+:#cad3f5,prompt:#c6a0f6,hl+:#ed8796 \
---color=selected-bg:#494d64 \
---multi"
+
+alias openf='~/scripts/openf.sh'
 
 
 
-if [[ $TERM_PROGRAM == "WezTerm" ]]; then
-  cat ~/dotfiles/wezterm/.wezterm_ascii.txt
-fi
+export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
+  --color=fg:#ffe4e4,fg+:#ff06da,bg:-1,bg+:#ffffff
+  --color=hl:#00ff59,hl+:#ff0888,info:#ffff00,marker:#ff2bd1
+  --color=prompt:#3a5d62,spinner:#3f1336,pointer:#50e8ff,header:#ff76e1
+  --color=gutter:#fa69ff,border:#ff00d9,separator:#ffffff,scrollbar:#ffffff
+  --color=preview-fg:#ffffff,label:#ffffff,query:#ffffff
+  --border="double" --border-label="fzf" --border-label-pos="8" --preview-window="border-thinblock"
+  --padding="1" --prompt=">>>" --marker=">>" --pointer="◆→"
+  --separator="|" --scrollbar="│" --info="right"'
+#
+# if [[ $TERM_PROGRAM == "WezTerm" ]]; then
+#   cat ~/dotfiles/wezterm/.wezterm_ascii.txt
+# fi
 
-function y() {
+function p() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
@@ -200,3 +181,10 @@ function y() {
 	fi
 	rm -f -- "$tmp"
 }
+
+bindkey '^ I'   complete-word       # tab          | complete
+bindkey '^ [[Z' autosuggest-accept  # shift + tab  | autosuggest
+bindkey '\t\t' autosuggest-accept
+
+
+bindkey "^[[3;5~" backward-kill-line

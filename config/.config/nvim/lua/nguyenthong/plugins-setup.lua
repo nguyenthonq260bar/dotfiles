@@ -166,6 +166,46 @@ return packer.startup(function(use)
 		requires = { "nvim-treesitter/nvim-treesitter" },
 	})
 
+	-- Cài đặt nvim-colorizer.lua
+	use({
+		"norcalli/nvim-colorizer.lua",
+		config = function()
+			require("colorizer").setup()
+		end,
+	})
+
+	use({
+		"olivercederborg/poimandres.nvim",
+		config = function()
+			require("poimandres").setup({
+				-- leave this setup function empty for default config
+				-- or refer to the configuration section
+				-- for configuration options
+			})
+		end,
+	})
+
+	use({
+		"folke/noice.nvim",
+		opts = {
+			-- add any options here
+		},
+		dependencies = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	})
+
+	use("MunifTanjim/nui.nvim")
+	use("rcarriga/nvim-notify")
+	use("karb94/neoscroll.nvim")
+
+	use("HiPhish/rainbow-delimiters.nvim")
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

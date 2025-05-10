@@ -5,3 +5,13 @@ deps = []
 use = "yazi-rs/flavors:catppuccin-macchiato"
 rev = "68326b4"
 hash = "3ec21bcfd2735cfcbab61faaf43e59e4"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:catppuccin-mocha"
+rev = "68326b4"
+hash = "2ac87e1b3a61f5887472899e86535d29"
+
+[[flavor.deps]]
+use = "yazi-rs/flavors:dracula"
+rev = "68326b4"
+hash = "53e1f10ae0f6abd406e463fceca8622a"

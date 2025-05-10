@@ -364,3 +364,7 @@ keymap = [
 	# Filtering
 	{ on = "f", run = "filter", desc = "Filter help items" },
 ]
+
+[keys.normal.f]
+exec = "open ."
+desc = "Mở thư mục hiện tại bằng Finder"

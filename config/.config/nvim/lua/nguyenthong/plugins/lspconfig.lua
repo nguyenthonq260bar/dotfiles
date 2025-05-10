@@ -12,17 +12,20 @@ mason.setup({
 mason_lspconfig.setup({
 	ensure_installed = { "html", "cssls", "pyright", "lua_ls", "gopls" },
 })
---change icon diagnostics
-local signs = {
-	{ name = "DiagnosticSignError", text = "" },
-	{ name = "DiagnosticSignWarn", text = "" },
-	{ name = "DiagnosticSignHint", text = "" },
-	{ name = "DiagnosticSignInfo", text = "" },
-}
+-- Configure diagnostic signs centrally
 
-for _, sign in ipairs(signs) do
-	vim.fn.sign_define(sign.name, { texthl = sign.name, text = sign.text, numhl = "" })
-end
+vim.diagnostic.config({
+	virtual_text = true,
+	signs = {
+		active = true,
+		text = {
+			[vim.diagnostic.severity.ERROR] = "✗",
+			[vim.diagnostic.severity.WARN] = "⚠",
+			[vim.diagnostic.severity.INFO] = "ℹ",
+			[vim.diagnostic.severity.HINT] = "➤",
+		},
+	},
+})
 
 --config go
 lspconfig.gopls.setup({
@@ -95,7 +98,6 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
-
 -- Cấu hình LSP cho HTML
 lspconfig.html.setup({
 	capabilities = capabilities,

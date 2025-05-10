@@ -12,6 +12,7 @@ function ReplaceSelectWord()
 		vim.cmd(":%s/" .. word .. "/" .. new_name .. "")
 	end
 end
+
 --------------
 function ReplaceAgreeWord()
 	local word = vim.fn.expand("<cword>")
@@ -22,6 +23,7 @@ function ReplaceAgreeWord()
 		vim.cmd(":%s/" .. word .. "/" .. new_name .. "/gc")
 	end
 end
+
 -------------
 local telescope = require("telescope.builtin")
 local select = require("vim.ui").select
@@ -54,4 +56,9 @@ end
 -- Gán phím tắt ':lua sea' cho hàm Search_symbol
 --vim.api.nvim_set_keymap("n", "<leader>fm", ":lua Search_symbol()<CR>", { noremap = true, silent = true })
 
---
+-- Ham lay duong dan
+
+vim.api.nvim_create_user_command("Path", function()
+	local path = vim.fn.expand("%:p:h") -- Lấy đường dẫn thư mục
+	vim.fn.setreg("+", path) -- Sao chép vào clipboard (reg +)
+end, {})

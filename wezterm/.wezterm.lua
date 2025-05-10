@@ -1,20 +1,27 @@
 local wezterm = require("wezterm")
 local themes = require("/Users/nguyenthong/dotfiles/wezterm/colors_scheme/themes")
 local config = wezterm.config_builder()
--- Define your custom keybindings
 
 config.color_schemes = themes
-config.color_scheme = "lovelace"
+config.color_scheme = "lovelace" -- Hoặc bạn có thể thay đổi sang theme khác như rose-pine
 
-config.font = wezterm.font("Maple Mono")
-
+-- Chỉnh sửa cấu hình font
 config.font = wezterm.font_with_fallback({
 	"Maple Mono",
 	"Hack Nerd Font",
-	"FiraCode Nerd Font",
-	"SF Pro",
+	"Monolisa",
+	"FiraCode Nerd Font", -- Phông chữ dự phòng
+	"SF Pro", -- Phông chữ dự phòng
 })
-config.window_background_opacity = 1 --0.0 is transparent
+
+config.bold_brightens_ansi_colors = false
+
+config.font_size = 13.5
+config.line_height = 1.35
+config.window_background_opacity = 0.85
+
+config.font_rules = {}
+
 config.macos_window_background_blur = 20
 
 config.keys = {
@@ -25,10 +32,8 @@ config.keys = {
 		action = wezterm.action.ActivateCopyMode,
 	},
 }
+
 config.use_ime = true
-
-config.font_size = 14.0
-
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 config.initial_cols = 105
@@ -40,6 +45,5 @@ config.window_padding = {
 	top = 0,
 	bottom = 0,
 }
--- Set window opacity and blur for macOS
 
 return config

@@ -22,6 +22,9 @@ vim.api.nvim_create_autocmd("VimEnter", {
 	callback = function()
 		vim.cmd([[hi LineNr guifg=#3d3d3d]])
 		vim.cmd([[hi CursorLineNr guifg=#ff85f3]])
+		vim.cmd([[hi StatusLine guibg=none]])
+		vim.cmd([[hi LineNrAbove guifg=#ff5189]])
+		vim.cmd([[hi LineNrbelow guifg=#ffffff]])
 	end,
 })
 -- Set splitright and splitbelow to avoid creating an additional split
@@ -29,8 +32,8 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 -- tabs & indentation
-opt.tabstop = 2
-opt.shiftwidth = 2
+opt.tabstop = 4
+opt.shiftwidth = 4
 opt.expandtab = true
 opt.autoindent = true
 

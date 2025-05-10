@@ -22,6 +22,7 @@ local mode_map = {
 	["CONFIRM"] = "Y?",
 	["MORE"] = "M",
 }
+
 -- stylua: ignore
 local colors = {
   blue   = '#80a0ff',
@@ -37,6 +38,52 @@ local colors = {
   grey2  = '#353835',
 }
 
+-- local mytheme = {
+-- 	normal = {
+-- 		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
+-- 		b = { fg = colors.white, bg = colors.grey },
+-- 		c = { fg = colors.white },
+-- 	},
+-- 	command = { a = { fg = colors.grey2, bg = colors.white, gui = "bold" } },
+-- 	insert = { a = { fg = colors.grey2, bg = colors.yellow, gui = "bold" } },
+-- 	visual = { a = { fg = colors.white, bg = colors.pink, gui = "bold" } },
+-- 	replace = { a = { fg = colors.white, bg = colors.red, gui = "bold" } },
+--
+-- 	inactive = {
+-- 		a = { fg = colors.white, bg = colors.grey, gui = "bold" },
+-- 		b = { fg = colors.white, bg = colors.black, gui = "bold" },
+-- 		c = { fg = colors.white, bg = colors.grey2, gui = "bold" },
+-- 	},
+-- }
+
+local custom_theme = {
+	normal = {
+		a = { fg = "#ffffff", bg = "none" }, -- 'none' để bỏ màu nền
+		b = { fg = "#ffffff", bg = "none" },
+		c = { fg = "#ffffff", bg = "none" },
+	},
+	insert = {
+		a = { fg = "#ffffff", bg = "none" },
+		b = { fg = "#ffffff", bg = "none" },
+		c = { fg = "#ffffff", bg = "none" },
+	},
+	visual = {
+		a = { fg = "#ffffff", bg = "none" },
+		b = { fg = "#ffffff", bg = "none" },
+		c = { fg = "#ffffff", bg = "none" },
+	},
+	replace = {
+		a = { fg = "#ffffff", bg = "none" },
+		b = { fg = "#ffffff", bg = "none" },
+		c = { fg = "#ffffff", bg = "none" },
+	},
+	inactive = {
+		a = { fg = "#ffffff", bg = "none" },
+		b = { fg = "#ffffff", bg = "none" },
+		c = { fg = "#ffffff", bg = "none" },
+	},
+}
+
 function SearchCount()
 	local search = vim.fn.searchcount({ maxcount = 0 }) -- maxcount = 0 makes the number not be capped at 99
 	local searchCurrent = search.current
@@ -47,24 +94,6 @@ function SearchCount()
 		return ""
 	end
 end
-
-local bubbles_theme = {
-	normal = {
-		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
-		b = { fg = colors.white, bg = colors.grey },
-		c = { fg = colors.white },
-	},
-	command = { a = { fg = colors.grey2, bg = colors.white, gui = "bold" } },
-	insert = { a = { fg = colors.grey2, bg = colors.yellow, gui = "bold" } },
-	visual = { a = { fg = colors.white, bg = colors.pink, gui = "bold" } },
-	replace = { a = { fg = colors.white, bg = colors.red, gui = "bold" } },
-
-	inactive = {
-		a = { fg = colors.white, bg = colors.grey, gui = "bold" },
-		b = { fg = colors.white, bg = colors.black, gui = "bold" },
-		c = { fg = colors.white, bg = colors.grey2, gui = "bold" },
-	},
-}
 
 local function dap_status()
 	local dap = require("dap")
@@ -78,20 +107,21 @@ local function is_dap_active()
 	local session = require("dap").session()
 	return session ~= nil
 end
-
+--
 lualine.setup({
 	options = {
-		theme = bubbles_theme,
+		theme = custom_theme,
 		component_separators = { left = "|", right = "|", use_mode_colors = true },
 		section_separators = { left = "", right = "" },
 		globalstatus = true,
+		disabled_filetypes = { "NvimTree", "TelescopePromt" },
 	},
 	sections = {
 		lualine_a = {
 			{ "filetype" },
 			{
 				"mode",
-				separator = { right = "" },
+				separator = { right = "|" },
 				right_padding = 2,
 				fmt = function(s)
 					return mode_map[s] or s

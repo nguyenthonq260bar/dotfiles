@@ -10,7 +10,7 @@
 # : Flavor {{{
 
 [flavor]
-dark  = "catppuccin-macchiato"
+dark = "dracula"
 light = ""
 
 # : }}}
@@ -23,10 +23,10 @@ cwd = { fg = "cyan" }
 
 # Hovered
 hovered         = { reversed = true }
-preview_hovered = { underline = true }
+preview_hovered = { bold = true, italic = true, underline = false }
 
 # Find
-find_keyword  = { fg = "yellow", bold = true, italic = true, underline = true }
+find_keyword  = { fg = "yellow", bold = true, italic = true} 
 find_position = { fg = "magenta", bg = "reset", bold = true, italic = true }
 
 # Symlink

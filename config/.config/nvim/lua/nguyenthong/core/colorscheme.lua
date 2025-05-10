@@ -1,5 +1,5 @@
 -- Cấu hình colorscheme
-local colorscheme = "catppuccin"
+local colorscheme = "oxocarbon"
 -- theme1: nightfly
 -- theme2: tokyonight
 -- theme3: catppuccin
@@ -7,6 +7,7 @@ local colorscheme = "catppuccin"
 -- theme5: onedark
 -- theme6: oxocarbon
 -- theme7: evergarden
+
 local status, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 
 if not status then
@@ -25,7 +26,7 @@ require("catppuccin").setup({
 		light = "latte",
 		dark = "mocha",
 	},
-	transparent_background = false, -- disables setting the background color.
+	transparent_background = true, -- disables setting the background color.
 	show_end_of_buffer = false, -- shows the '~' characters after the end of buffers
 	term_colors = false, -- sets terminal colors (e.g. `g:terminal_color_0`)
 	dim_inactive = {
