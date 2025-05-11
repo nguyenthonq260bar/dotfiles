@@ -91,10 +91,10 @@ vim.api.nvim_create_user_command("TranslateFromRegister", translate_from_registe
 
 --vim.keymap.set("n", "*", translate_from_register)
 
-vim.keymap.set("n", "<C-p>", function()
-	-- Yanking từ dưới con trỏ (word dưới con trỏ)
-	vim.cmd("normal! yw")
-
-	-- Gọi lệnh dịch từ trong register
-	vim.cmd("TranslateFromRegister")
-end, { noremap = true, silent = true })
+-- vim.keymap.set("n", "<C-p>", function()
+-- 	-- Yanking từ dưới con trỏ (word dưới con trỏ)
+-- 	vim.cmd("normal! yw")
+--
+-- 	-- Gọi lệnh dịch từ trong register
+-- 	vim.cmd("TranslateFromRegister")
+-- end, { noremap = true, silent = true })

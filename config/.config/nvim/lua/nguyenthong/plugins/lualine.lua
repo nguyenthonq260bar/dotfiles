@@ -95,6 +95,14 @@ function SearchCount()
 	end
 end
 
+function DisplayRecording()
+	local reg = vim.fn.reg_recording()
+	if reg ~= "" then
+		return "Recording @" .. reg
+	end
+	return ""
+end
+
 local function dap_status()
 	local dap = require("dap")
 	return dap.status()
@@ -139,7 +147,7 @@ lualine.setup({
 		},
 		lualine_c = {},
 		lualine_x = {},
-		lualine_y = { { "tabs" } },
+		lualine_y = { { "tabs" }, DisplayRecording },
 		lualine_z = {
 			{ "location" },
 			{

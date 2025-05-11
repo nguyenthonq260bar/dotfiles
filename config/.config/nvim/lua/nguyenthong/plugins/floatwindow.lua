@@ -72,5 +72,6 @@ vim.keymap.set("n", "|", function()
 	vim.cmd("terminal") -- Mở terminal
 	local total = vim.o.lines
 	local height = math.floor(total * 0.25)
-	vim.cmd("resize " .. height) -- Resize cửa sổ terminal
+	vim.cmd("resize " .. height) -- Đổi chiều cao cửa sổ terminal
+	vim.cmd("startinsert") -- Vào chế độ insert tự động
 end, { noremap = true, silent = true })

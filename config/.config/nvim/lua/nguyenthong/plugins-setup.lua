@@ -206,6 +206,17 @@ return packer.startup(function(use)
 
 	use("HiPhish/rainbow-delimiters.nvim")
 
+	use({
+		"kdheepak/lazygit.nvim",
+		requires = {
+			"nvim-telescope/telescope.nvim",
+			"nvim-lua/plenary.nvim",
+		},
+		config = function()
+			require("telescope").load_extension("lazygit")
+		end,
+	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end
