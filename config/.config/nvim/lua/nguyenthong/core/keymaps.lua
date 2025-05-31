@@ -1,12 +1,22 @@
-local utils = require("nguyenthong.core.function_keymap")
-
 vim.g.mapleader = " "
 local keymap = vim.keymap -- for conciseness
+
+vim.keymap.set("n", "<leader>L", function()
+	local file = vim.fn.expand("%")
+	local line = vim.fn.line(".")
+	vim.fn.setreg("+", string.format("%s:%d", file, line))
+	vim.notify("Copied line reference to clipboard")
+end, { desc = "Copy line reference to clipboard" })
 
 vim.api.nvim_set_keymap("n", "a", "", { noremap = true, silent = true })
 --general keymaps
 keymap.set({ "n", "v" }, "x", '"_x')
 keymap.set("n", "dd", '"_dd')
+
+-- Di chuyển xuống theo dòng hiển thị (wrap) thay vì dòng thực tế
+keymap.set("n", "j", "gj", { noremap = true, silent = true })
+-- Di chuyển lên theo dòng hiển thị (wrap) thay vì dòng thực tế
+keymap.set("n", "k", "gk", { noremap = true, silent = true })
 
 keymap.set("i", "jk", "<ESC>")
 
@@ -14,8 +24,8 @@ keymap.set("i", "jk", "<ESC>")
 -- keymap.set("n", "WQ", "<cmd>:wq<CR>", { noremap = true, silent = true })
 -- keymap.set("n", "WW", "<cmd>:w<CR>", { noremap = true, silent = true })
 
--- keymap.set("n", "j", "jzz", {noremap = true,  silent = true})
--- keymap.set("n", "k", "kzz", {noremap = true, silent = true})
+-- keymap.set("n", "j", "jzz", { noremap = true, silent = true })
+-- keymap.set("n", "k", "kzz", { noremap = true, silent = true })
 
 --lspconfig
 keymap.set("n", "-", vim.lsp.buf.hover, { buffer = 0 }) -- Hiển thị tài liệu
@@ -33,7 +43,7 @@ keymap.set("n", "<Leader>nd", "<cmd>NoiceDismiss<CR>", { noremap = true, silent 
 keymap.set("v", "<S-Tab>", "<gv", { noremap = true, silent = true })
 keymap.set("v", "<Tab>", ">gv", { noremap = true, silent = true })
 --keymap.set("v", "i", "<ESC><ESC>", { noremap = true, silent = true })
-keymap.set("v", "n", "<ESC>", { noremap = true, silent = true })
+--keymap.set("v", "n", "<ESC>", { noremap = true, silent = true })
 
 --go to definition fuction
 keymap.set("n", "<C-o>", "<C-o>zz", { noremap = true, silent = true })
@@ -84,32 +94,40 @@ keymap.set("n", "<leader>sm", ":MaximizerToggle<CR>")
 keymap.set("n", "<leader>e", ":NvimTreeToggle<CR>", { noremap = true, silent = true })
 
 -- telescope
-keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>")
-keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>")
-keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>")
-keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>")
-keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>")
-keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>")
+keymap.set("n", "<leader>ff", "<cmd>Telescope find_files<cr>", { desc = "Telescope: Find Files" })
+keymap.set("n", "<leader>fs", "<cmd>Telescope live_grep<cr>", { desc = "Telescope: Live Grep" })
+keymap.set("n", "<leader>fc", "<cmd>Telescope grep_string<cr>", { desc = "Telescope: Grep String" })
+keymap.set("n", "<leader>fb", "<cmd>Telescope buffers<cr>", { desc = "Telescope: Buffers" })
+keymap.set("n", "<leader>fh", "<cmd>Telescope help_tags<cr>", { desc = "Telescope: Help Tags" })
+keymap.set("n", "<leader>fr", "<cmd>Telescope registers<cr>", { desc = "Telescope: Registers" })
+vim.keymap.set("n", "<leader>fm", function()
+	local filetype = vim.bo.filetype
+	local symbols_map = {
+		lua = { "Function" },
+		go = { "Method", "Struct", "Interface", "Function", "Variable", "Field", "Type", "Package", "Constant" },
+	}
+	local symbols = symbols_map[filetype] or { "Function" }
+	require("telescope.builtin").lsp_document_symbols({
+		symbols = symbols,
+	})
+end, { desc = "LSP symbols by filetype" })
 
--- keymap.set("n", "L", "$")
--- keymap.set("n", "H", "^")
--- keymap.set("n", "O", "%")
-
---buffers
-vim.keymap.set("n", "<leader>q", function()
+--
+-- Đóng buffer hiện tại, chuyển sang buffer trước nếu còn buffer khác
+vim.keymap.set("n", "<leader>c", function()
 	local buffers = vim.fn.getbufinfo({ buflisted = 1 }) -- Lấy danh sách các buffer đang mở
 	if #buffers > 1 then
 		vim.cmd("bprev") -- Chuyển sang buffer trước
 	end
 	vim.cmd("bd!") -- Đóng buffer hiện tại
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true }, { desc = "Close current buffer" })
 
 --move code
 keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
 keymap.set("x", "o", "<Esc>", { noremap = true, silent = true })
-keymap.set("v", "o", "<Esc>", { noremap = true, silent = true })
+keymap.set("v", ".", "<Esc>", { noremap = true, silent = true })
 
 --replace ra - repalce all
 vim.api.nvim_set_keymap("n", "<leader>ra", ":lua ReplaceSelectWord()<CR>", { noremap = true, silent = true })
@@ -118,71 +136,70 @@ vim.api.nvim_set_keymap("n", "<leader>ra", ":lua ReplaceSelectWord()<CR>", { nor
 vim.api.nvim_set_keymap("n", "<leader>rw", ":lua ReplaceAgreeWord()<CR>", { noremap = true, silent = true })
 
 --
-vim.api.nvim_set_keymap("n", "<leader>fm", ":lua Search_symbol()<CR>", { noremap = true, silent = true })
 
 --debugger
 
 keymap.set("n", "<F5>", function()
 	require("dap").continue()
-end)
+end, { desc = "DAP: Continue" })
 keymap.set("n", "<F10>", function()
 	require("dap").step_over()
-end)
+end, { desc = "DAP: Step Over" })
 keymap.set("n", "<F11>", function()
 	require("dap").step_into()
-end)
+end, { desc = "DAP: Step Into" })
 keymap.set("n", "<F12>", function()
 	require("dap").step_out()
-end)
+end, { desc = "DAP: Step Out" })
 
 keymap.set("n", "<Leader>dc", function()
 	require("dap").continue()
-end)
+end, { desc = "DAP: Continue" })
 keymap.set("n", "<A-u>", function()
 	require("dap").step_over()
-end)
+end, { desc = "DAP: Step Over" })
 keymap.set("n", "<A-i>", function()
 	require("dap").step_into()
-end)
+end, { desc = "DAP: Step Into" })
 keymap.set("n", "<A-o>", function()
 	require("dap").step_out()
-end)
+end, { desc = "DAP: Step Out" })
 
 keymap.set("n", "<Leader>dt", function()
 	require("dap").toggle_breakpoint()
-end)
+end, { desc = "DAP: Toggle Breakpoint" })
 keymap.set("n", "<Leader>B", function()
 	require("dap").set_breakpoint()
-end)
+end, { desc = "DAP: Set Breakpoint" })
 
 keymap.set("n", "<Leader>dm", function()
 	require("dap").set_breakpoint(nil, nil, vim.fn.input("Log point message: "))
-end)
+end, { desc = "DAP: Set Log Point" })
 keymap.set("n", "<Leader>dr", function()
 	require("dap").repl.open()
-end)
+end, { desc = "DAP: Open REPL" })
 keymap.set("n", "<Leader>dl", function()
 	require("dap").run_last()
-end)
+end, { desc = "DAP: Run Last" })
 
 keymap.set({ "n", "v" }, "<Leader>dh", function()
 	require("dap.ui.widgets").hover()
-end)
+end, { desc = "DAP: Hover" })
 
 vim.keymap.set({ "n", "v" }, "<Leader>dp", function()
 	require("dap.ui.widgets").preview()
-end)
+end, { desc = "DAP: Preview" })
 
 vim.keymap.set("n", "<Leader>df", function()
 	local widgets = require("dap.ui.widgets")
 	widgets.centered_float(widgets.frames)
-end)
+end, { desc = "DAP: Frames" })
 
 vim.keymap.set("n", "<Leader>ds", function()
 	local widgets = require("dap.ui.widgets")
 	widgets.centered_float(widgets.scopes)
-end)
+end, { desc = "DAP: Scopes" })
 
 vim.keymap.set("n", "<leader>tt", function()
 	vim.cmd('normal! vi"')
-end, { noremap = true, silent = true })
+end, { noremap = true, silent = true, desc = "Select inside double quotes" })

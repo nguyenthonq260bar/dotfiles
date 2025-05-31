@@ -23,6 +23,25 @@ local mode_map = {
 	["MORE"] = "M",
 }
 
+local mode_mapv2 = {
+	["NORMAL"] = "normal", --
+	["O-PENDING"] = "o-pending",
+	["INSERT"] = "insert",
+	["VISUAL"] = "visual",
+	["V-BLOCK"] = "v-block",
+	["V-LINE"] = "v-line",
+	["V-REPLACE"] = "v-replace",
+	["REPLACE"] = "replace",
+	["COMMAND"] = "command",
+	["SHELL"] = "shell",
+	["TERMINAL"] = "terminal",
+	["EX"] = "ex",
+	["S-BLOCK"] = "s-block",
+	["S-LINE"] = "s-line",
+	["SELECT"] = "select",
+	["CONFIRM"] = "confirm",
+	["MORE"] = "more",
+}
 -- stylua: ignore
 local colors = {
   blue   = '#80a0ff',
@@ -38,23 +57,23 @@ local colors = {
   grey2  = '#353835',
 }
 
--- local mytheme = {
--- 	normal = {
--- 		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
--- 		b = { fg = colors.white, bg = colors.grey },
--- 		c = { fg = colors.white },
--- 	},
--- 	command = { a = { fg = colors.grey2, bg = colors.white, gui = "bold" } },
--- 	insert = { a = { fg = colors.grey2, bg = colors.yellow, gui = "bold" } },
--- 	visual = { a = { fg = colors.white, bg = colors.pink, gui = "bold" } },
--- 	replace = { a = { fg = colors.white, bg = colors.red, gui = "bold" } },
---
--- 	inactive = {
--- 		a = { fg = colors.white, bg = colors.grey, gui = "bold" },
--- 		b = { fg = colors.white, bg = colors.black, gui = "bold" },
--- 		c = { fg = colors.white, bg = colors.grey2, gui = "bold" },
--- 	},
--- }
+local mytheme = {
+	normal = {
+		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
+		b = { fg = colors.white, bg = colors.grey },
+		c = { fg = colors.white },
+	},
+	command = { a = { fg = colors.grey2, bg = colors.white, gui = "bold" } },
+	insert = { a = { fg = colors.grey2, bg = colors.yellow, gui = "bold" } },
+	visual = { a = { fg = colors.white, bg = colors.pink, gui = "bold" } },
+	replace = { a = { fg = colors.white, bg = colors.red, gui = "bold" } },
+
+	inactive = {
+		a = { fg = colors.white, bg = colors.grey, gui = "bold" },
+		b = { fg = colors.white, bg = colors.black, gui = "bold" },
+		c = { fg = colors.white, bg = colors.grey2, gui = "bold" },
+	},
+}
 
 local custom_theme = {
 	normal = {
@@ -84,12 +103,24 @@ local custom_theme = {
 	},
 }
 
+function Map_mode(s)
+	return mode_mapv2[s] or s
+end
+
 function SearchCount()
 	local search = vim.fn.searchcount({ maxcount = 0 }) -- maxcount = 0 makes the number not be capped at 99
 	local searchCurrent = search.current
 	local searchTotal = search.total
 	if searchCurrent > 0 and vim.v.hlsearch ~= 0 then
 		return "Search: " .. vim.fn.getreg("/") .. " [" .. searchCurrent .. "/" .. searchTotal .. "]"
+	else
+		return ""
+	end
+end
+
+local function copilot_status()
+	if _G.copilot_enabled then
+		return "" -- hoặc dùng icon khác: 
 	else
 		return ""
 	end
@@ -122,40 +153,52 @@ lualine.setup({
 		component_separators = { left = "|", right = "|", use_mode_colors = true },
 		section_separators = { left = "", right = "" },
 		globalstatus = true,
-		disabled_filetypes = { "NvimTree", "TelescopePromt" },
+		disabled_filetypes = { "NvimTree", "TelescopePrompt" },
 	},
 	sections = {
 		lualine_a = {
 			{ "filetype" },
+			{ "filename", path = 0, color = { fg = colors.red } },
 			{
 				"mode",
 				separator = { right = "|" },
 				right_padding = 2,
-				fmt = function(s)
-					return mode_map[s] or s
-				end,
+				fmt = Map_mode,
 			},
 		},
 		lualine_b = {
-			{ "diff", symbols = { added = "+", modified = "~", removed = "-" } },
-			{ "filename", path = 0 },
 			{
 				dap_status,
 				icon = { " ", color = { fg = "#e7c664" } },
 				cond = is_dap_active,
 			},
 		},
-		lualine_c = {},
+		lualine_c = {
+			copilot_status,
+		},
 		lualine_x = {},
-		lualine_y = { { "tabs" }, DisplayRecording },
+		lualine_y = {
+			{
+				"tabs",
+			},
+		},
 		lualine_z = {
 			{ "location" },
+			{ "progress" },
+			{
+				"branch",
+				icon = "",
+				color = { fg = "#FF5733", gui = "bold" },
+			},
+			{ "diff", symbols = { added = " ", modified = " ", removed = " " } },
 			{
 				SearchCount,
 				color = { fg = "#FF5733", gui = "bold" },
 			},
-			{ "progress" },
-			{ "branch" },
+			{
+				DisplayRecording,
+				color = { fg = colors.green, gui = "bold", guibg = colors.white },
+			},
 		},
 	},
 

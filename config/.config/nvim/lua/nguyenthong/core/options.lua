@@ -2,8 +2,11 @@ local opt = vim.opt -- for conciseness
 
 -- line numbers
 opt.relativenumber = true
-
 opt.number = true
+opt.virtualedit = "onemore"
+
+vim.o.startofline = false
+
 opt.fillchars = { eob = " " }
 
 vim.opt.conceallevel = 1
@@ -66,3 +69,10 @@ opt.splitbelow = true
 opt.iskeyword:append("-")
 
 vim.g.loaded_perl_provider = 0
+
+vim.o.guicursor = table.concat({
+	"n-v-c:block", -- Normal/Visual/Command: block cursor
+	"i-ci:ver25", -- Insert: vertical bar (25% height)
+	"r-cr:hor20", -- Replace: horizontal bar (20% height)
+	"sm:block-blinkwait175-blinkoff150-blinkon175", -- Showmatch: blinking block
+}, ",")

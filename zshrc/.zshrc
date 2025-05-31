@@ -7,6 +7,7 @@
 
 
 
+export PATH=$PATH:$(go env GOPATH)/bin
 export STARSHIP_CONFIG="$HOME/.starship.toml"
 eval "$(starship init zsh)"
 
@@ -22,6 +23,10 @@ export PATH="/usr/local/bin:$PATH"
 
 export EDITOR="nvim"
 
+# Đường dẫn đến Go (nếu muốn thiết lập thủ công)
+export GOROOT=/usr/local/go
+export GOPATH=$HOME/go
+export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -173,7 +178,7 @@ export FZF_DEFAULT_OPTS=$FZF_DEFAULT_OPTS'
 #   cat ~/dotfiles/wezterm/.wezterm_ascii.txt
 # fi
 
-function p() {
+function f() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
 	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then

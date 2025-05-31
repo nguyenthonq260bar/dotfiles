@@ -9,7 +9,7 @@ treesitter.setup({
 	auto_install = true,
 	sync_install = false,
 
-	ensure_installed = { "lua", "python", "javascript", "markdown", "markdown_inline", "go" },
+	ensure_installed = { "lua", "javascript", "markdown", "markdown_inline", "go" },
 	highlight = {
 		enable = true,
 		additional_vim_regex_highlighting = false,
@@ -22,6 +22,5 @@ treesitter.setup({
 -- Cấu hình trong file init.lua
 vim.g.rainbow_delimiters = require("rainbow-delimiters")
 
-vim.api.nvim_set_hl(0, "@variable", { italic = true })
--- Comment in nghiêng và mờ
-vim.api.nvim_set_hl(0, "@comment", { italic = true, fg = "#888888" })
+-- vim.api.nvim_set_hl(0, "@variable", { italic = true })
+-- vim.api.nvim_set_hl(0, "@comment", { italic = true, fg = "#888888" })

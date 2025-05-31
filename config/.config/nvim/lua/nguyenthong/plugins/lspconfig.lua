@@ -10,7 +10,7 @@ mason.setup({
 })
 
 mason_lspconfig.setup({
-	ensure_installed = { "html", "cssls", "pyright", "lua_ls", "gopls" },
+	ensure_installed = { "html", "cssls", "lua_ls", "gopls" },
 })
 -- Configure diagnostic signs centrally
 
@@ -34,7 +34,16 @@ lspconfig.gopls.setup({
 		vim.keymap.set("n", "-", vim.lsp.buf.hover, { buffer = bufnr }) -- Hiển thị tài liệu
 		vim.keymap.set("i", "<C-p>", vim.lsp.buf.signature_help, { buffer = bufnr }) -- Hiển thị chữ ký
 
-		vim.api.nvim_set_keymap("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>zz", { noremap = true, silent = true })
+		--vim.api.nvim_set_keymap("n", "gd", "<Cmd>lua vim.lsp.buf.definition()<CR>zz", { noremap = true, silent = true })
+
+		vim.api.nvim_set_keymap("n", "gd", "", {
+			noremap = true,
+			silent = true,
+			callback = function()
+				vim.lsp.buf.definition()
+				vim.cmd("normal! zz")
+			end,
+		})
 
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { noremap = true, silent = true }) --import library
 	end,
@@ -57,29 +66,15 @@ require("go-tags").setup({
 	},
 })
 
--- Cấu hình LSP cho Python
-lspconfig.pyright.setup({
-	capabilities = capabilities,
-	settings = {
-		python = {
-			pythonPath = "/Library/Frameworks/Python.framework/Versions/3.13/bin/python3",
-		},
-		analysis = {
-			typeCheckingMode = "off", -- Tắt kiểm tra kiểu dữ liệu
-			diagnosticMode = "workspace", -- Hoặc chuyển sang "openFilesOnly"
-		},
-	},
-})
-
 lspconfig.lua_ls.setup({
-	on_init = function(client)
-		if client.workspace_folders then
-			local path = client.workspace_folders[1].name
-			if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. ".luarc.jsonc") then
-				return
-			end
-		end
-	end,
+	-- on_init = function(client)
+	-- 	if client.workspace_folders then
+	-- 		local path = client.workspace_folders[1].name
+	-- 		if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. ".luarc.jsonc") then
+	-- 			return
+	-- 		end
+	-- 	end
+	-- end,
 
 	settings = {
 		Lua = {
