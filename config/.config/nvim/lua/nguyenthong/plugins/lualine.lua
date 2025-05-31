@@ -1,214 +1,221 @@
-local status, lualine = pcall(require, "lualine")
+-- Eviline config for lualine
+-- Author: shadmansaleh
+-- Credit: glepnir
+local lualine = require("lualine")
 
-if not status then
-	return
-end
-
-local mode_map = {
-	["NORMAL"] = "N", --
-	["O-PENDING"] = "N?",
-	["INSERT"] = "I",
-	["VISUAL"] = "V",
-	["V-BLOCK"] = "VB",
-	["V-REPLACE"] = "VR",
-	["REPLACE"] = "R",
-	["COMMAND"] = "C",
-	["SHELL"] = "SH",
-	["TERMINAL"] = "T",
-	["EX"] = "X",
-	["S-BLOCK"] = "SB",
-	["S-LINE"] = "SL",
-	["SELECT"] = "S",
-	["CONFIRM"] = "Y?",
-	["MORE"] = "M",
-}
-
-local mode_mapv2 = {
-	["NORMAL"] = "normal", --
-	["O-PENDING"] = "o-pending",
-	["INSERT"] = "insert",
-	["VISUAL"] = "visual",
-	["V-BLOCK"] = "v-block",
-	["V-LINE"] = "v-line",
-	["V-REPLACE"] = "v-replace",
-	["REPLACE"] = "replace",
-	["COMMAND"] = "command",
-	["SHELL"] = "shell",
-	["TERMINAL"] = "terminal",
-	["EX"] = "ex",
-	["S-BLOCK"] = "s-block",
-	["S-LINE"] = "s-line",
-	["SELECT"] = "select",
-	["CONFIRM"] = "confirm",
-	["MORE"] = "more",
-}
+-- Color table for highlights
 -- stylua: ignore
 local colors = {
-  blue   = '#80a0ff',
-  cyan   = '#79dac8',
-  black  = '#080808',
-  white  = '#ffffff',
-  red    = '#ff5189',
-  violet = '#d183e8',
-  grey   = '#404040',
-  green  = '#a5fc03',
-  pink   = '#fa64e6',
-  yellow = '#fff530',
-  grey2  = '#353835',
+  bg       = '#202328',
+  fg       = '#bbc2cf',
+  yellow   = '#ECBE7B',
+  cyan     = '#008080',
+  darkblue = '#081633',
+  green    = '#98be65',
+  orange   = '#FF8800',
+  violet   = '#a9a1e1',
+  magenta  = '#c678dd',
+  blue     = '#51afef',
+  red      = '#ec5f67',
 }
 
-local mytheme = {
-	normal = {
-		a = { fg = colors.grey2, bg = colors.white, gui = "bold" },
-		b = { fg = colors.white, bg = colors.grey },
-		c = { fg = colors.white },
-	},
-	command = { a = { fg = colors.grey2, bg = colors.white, gui = "bold" } },
-	insert = { a = { fg = colors.grey2, bg = colors.yellow, gui = "bold" } },
-	visual = { a = { fg = colors.white, bg = colors.pink, gui = "bold" } },
-	replace = { a = { fg = colors.white, bg = colors.red, gui = "bold" } },
-
-	inactive = {
-		a = { fg = colors.white, bg = colors.grey, gui = "bold" },
-		b = { fg = colors.white, bg = colors.black, gui = "bold" },
-		c = { fg = colors.white, bg = colors.grey2, gui = "bold" },
-	},
+local conditions = {
+	buffer_not_empty = function()
+		return vim.fn.empty(vim.fn.expand("%:t")) ~= 1
+	end,
+	hide_in_width = function()
+		return vim.fn.winwidth(0) > 80
+	end,
+	check_git_workspace = function()
+		local filepath = vim.fn.expand("%:p:h")
+		local gitdir = vim.fn.finddir(".git", filepath .. ";")
+		return gitdir and #gitdir > 0 and #gitdir < #filepath
+	end,
 }
 
-local custom_theme = {
-	normal = {
-		a = { fg = "#ffffff", bg = "none" }, -- 'none' để bỏ màu nền
-		b = { fg = "#ffffff", bg = "none" },
-		c = { fg = "#ffffff", bg = "none" },
-	},
-	insert = {
-		a = { fg = "#ffffff", bg = "none" },
-		b = { fg = "#ffffff", bg = "none" },
-		c = { fg = "#ffffff", bg = "none" },
-	},
-	visual = {
-		a = { fg = "#ffffff", bg = "none" },
-		b = { fg = "#ffffff", bg = "none" },
-		c = { fg = "#ffffff", bg = "none" },
-	},
-	replace = {
-		a = { fg = "#ffffff", bg = "none" },
-		b = { fg = "#ffffff", bg = "none" },
-		c = { fg = "#ffffff", bg = "none" },
-	},
-	inactive = {
-		a = { fg = "#ffffff", bg = "none" },
-		b = { fg = "#ffffff", bg = "none" },
-		c = { fg = "#ffffff", bg = "none" },
-	},
-}
-
-function Map_mode(s)
-	return mode_mapv2[s] or s
-end
-
-function SearchCount()
-	local search = vim.fn.searchcount({ maxcount = 0 }) -- maxcount = 0 makes the number not be capped at 99
-	local searchCurrent = search.current
-	local searchTotal = search.total
-	if searchCurrent > 0 and vim.v.hlsearch ~= 0 then
-		return "Search: " .. vim.fn.getreg("/") .. " [" .. searchCurrent .. "/" .. searchTotal .. "]"
-	else
-		return ""
-	end
-end
-
-local function copilot_status()
-	if _G.copilot_enabled then
-		return "" -- hoặc dùng icon khác: 
-	else
-		return ""
-	end
-end
-
-function DisplayRecording()
-	local reg = vim.fn.reg_recording()
-	if reg ~= "" then
-		return "Recording @" .. reg
-	end
-	return ""
-end
-
-local function dap_status()
-	local dap = require("dap")
-	return dap.status()
-end
-
-local function is_dap_active()
-	if not package.loaded.dap then
-		return false
-	end
-	local session = require("dap").session()
-	return session ~= nil
-end
---
-lualine.setup({
+-- Config
+local config = {
 	options = {
-		theme = custom_theme,
-		component_separators = { left = "|", right = "|", use_mode_colors = true },
-		section_separators = { left = "", right = "" },
-		globalstatus = true,
-		disabled_filetypes = { "NvimTree", "TelescopePrompt" },
+		-- Disable sections and component separators
+		component_separators = "",
+		section_separators = "",
+		theme = {
+			-- We are going to use lualine_c an lualine_x as left and
+			-- right section. Both are highlighted by c theme .  So we
+			-- are just setting default looks o statusline
+			normal = { c = { fg = colors.fg, bg = colors.bg } },
+			inactive = { c = { fg = colors.fg, bg = colors.bg } },
+		},
 	},
 	sections = {
-		lualine_a = {
-			{ "filetype" },
-			{ "filename", path = 0, color = { fg = colors.red } },
-			{
-				"mode",
-				separator = { right = "|" },
-				right_padding = 2,
-				fmt = Map_mode,
-			},
-		},
-		lualine_b = {
-			{
-				dap_status,
-				icon = { " ", color = { fg = "#e7c664" } },
-				cond = is_dap_active,
-			},
-		},
-		lualine_c = {
-			copilot_status,
-		},
-		lualine_x = {},
-		lualine_y = {
-			{
-				"tabs",
-			},
-		},
-		lualine_z = {
-			{ "location" },
-			{ "progress" },
-			{
-				"branch",
-				icon = "",
-				color = { fg = "#FF5733", gui = "bold" },
-			},
-			{ "diff", symbols = { added = " ", modified = " ", removed = " " } },
-			{
-				SearchCount,
-				color = { fg = "#FF5733", gui = "bold" },
-			},
-			{
-				DisplayRecording,
-				color = { fg = colors.green, gui = "bold", guibg = colors.white },
-			},
-		},
-	},
-
-	inactive_sections = {
+		-- these are to remove the defaults
 		lualine_a = {},
 		lualine_b = {},
-		lualine_c = {},
-		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
+		-- These will be filled later
+		lualine_c = {},
+		lualine_x = {},
 	},
-	extensions = {},
+	inactive_sections = {
+		-- these are to remove the defaults
+		lualine_a = {},
+		lualine_b = {},
+		lualine_y = {},
+		lualine_z = {},
+		lualine_c = {},
+		lualine_x = {},
+	},
+}
+
+-- Inserts a component in lualine_c at left section
+local function ins_left(component)
+	table.insert(config.sections.lualine_c, component)
+end
+
+-- Inserts a component in lualine_x at right section
+local function ins_right(component)
+	table.insert(config.sections.lualine_x, component)
+end
+
+ins_left({
+	function()
+		return "▊"
+	end,
+	color = { fg = colors.green }, -- Sets highlighting of component
+	padding = { left = 0, right = 1 }, -- We don't need space before this
 })
+
+ins_left({
+	-- mode component
+	function()
+		return ""
+	end,
+	color = function()
+		-- auto change color according to neovims mode
+		local mode_color = {
+			n = colors.red,
+			i = colors.green,
+			v = colors.blue,
+			[""] = colors.blue,
+			V = colors.blue,
+			c = colors.magenta,
+			no = colors.red,
+			s = colors.orange,
+			S = colors.orange,
+			[""] = colors.orange,
+			ic = colors.yellow,
+			R = colors.violet,
+			Rv = colors.violet,
+			cv = colors.red,
+			ce = colors.red,
+			r = colors.cyan,
+			rm = colors.cyan,
+			["r?"] = colors.cyan,
+			["!"] = colors.red,
+			t = colors.red,
+		}
+		return { fg = mode_color[vim.fn.mode()] }
+	end,
+	padding = { right = 1 },
+})
+
+ins_left({
+	-- filesize component
+	"filesize",
+	cond = conditions.buffer_not_empty,
+})
+
+ins_left({
+	"filename",
+	cond = conditions.buffer_not_empty,
+	color = { fg = colors.magenta, gui = "bold" },
+})
+
+ins_left({ "location" })
+
+ins_left({ "progress", color = { fg = colors.fg, gui = "bold" } })
+
+ins_left({
+	"diagnostics",
+	sources = { "nvim_diagnostic" },
+	symbols = { error = " ", warn = " ", info = " " },
+	diagnostics_color = {
+		error = { fg = colors.red },
+		warn = { fg = colors.yellow },
+		info = { fg = colors.cyan },
+	},
+})
+
+-- Insert mid section. You can make any number of sections in neovim :)
+-- for lualine it's any number greater then 2
+ins_left({
+	function()
+		return "%="
+	end,
+})
+
+ins_left({
+	-- Lsp server name .
+	function()
+		local msg = "No Active Lsp"
+		local buf_ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+		local clients = vim.lsp.get_clients()
+		if next(clients) == nil then
+			return msg
+		end
+		for _, client in ipairs(clients) do
+			local filetypes = client.config.filetypes
+			if filetypes and vim.fn.index(filetypes, buf_ft) ~= -1 then
+				return client.name
+			end
+		end
+		return msg
+	end,
+	icon = " LSP:",
+	color = { fg = "#ffffff", gui = "bold" },
+})
+
+-- Add components to right sections
+ins_right({
+	"o:encoding", -- option component same as &encoding in viml
+	fmt = string.upper, -- I'm not sure why it's upper case either ;)
+	cond = conditions.hide_in_width,
+	color = { fg = colors.green, gui = "bold" },
+})
+
+ins_right({
+	"fileformat",
+	fmt = string.upper,
+	icons_enabled = false, -- I think icons are cool but Eviline doesn't have them. sigh
+	color = { fg = colors.green, gui = "bold" },
+})
+
+ins_right({
+	"branch",
+	icon = "",
+	color = { fg = colors.violet, gui = "bold" },
+})
+
+ins_right({
+	"diff",
+	-- Is it me or the symbol for modified us really weird
+	symbols = { added = " ", modified = "󰝤 ", removed = " " },
+	diff_color = {
+		added = { fg = colors.green },
+		modified = { fg = colors.orange },
+		removed = { fg = colors.red },
+	},
+	cond = conditions.hide_in_width,
+})
+
+ins_right({
+	function()
+		return "▊"
+	end,
+	color = { fg = colors.green },
+	padding = { left = 1 },
+})
+
+-- Now don't forget to initialize lualine
+lualine.setup(config)
