@@ -1,5 +1,5 @@
 -- Cấu hình colorscheme
-local colorscheme = "oxocarbon"
+local colorscheme = "tokyonight-night"
 -- theme1: nightfly
 -- theme2: tokyonight
 -- theme3: catppuccin

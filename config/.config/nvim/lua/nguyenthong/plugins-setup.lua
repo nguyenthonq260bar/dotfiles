@@ -217,6 +217,25 @@ return packer.startup(function(use)
 		end,
 	})
 
+	use("github/copilot.vim")
+	use({
+		"CopilotC-Nvim/CopilotChat.nvim",
+		requires = {
+			{ "github/copilot.vim" },
+			{ "nvim-lua/plenary.nvim" },
+		},
+		run = "make tiktoken", -- tương đương `build` trong Lazy
+	})
+
+	use({
+		"folke/which-key.nvim",
+		config = function()
+			require("which-key").setup({
+				-- Bạn có thể thêm tùy chọn tại đây nếu muốn
+			})
+		end,
+	})
+	use("datsfilipe/vesper.nvim")
 	if packer_bootstrap then
 		require("packer").sync()
 	end

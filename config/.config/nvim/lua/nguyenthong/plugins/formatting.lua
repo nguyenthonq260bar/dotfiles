@@ -7,8 +7,9 @@ conform.setup({
 	formatters_by_ft = {
 		css = { "prettier" },
 		html = { "prettier" },
-		python = { "isort", "black" },
+		--python = { "isort", "black" },
 		lua = { "stylua" },
+		json = { "prettier" },
 	},
 	format_on_save = {
 		lsp_fallback = true,
@@ -25,3 +26,5 @@ vim.keymap.set({ "n", "v" }, "<Leader>ll", function()
 		timeout_ms = 3000,
 	})
 end)
+
+vim.keymap.set("n", "<leader>ko", vim.lsp.buf.format, { noremap = true, silent = true })

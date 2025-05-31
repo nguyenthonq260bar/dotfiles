@@ -1,28 +1,10 @@
 local dap = require("dap")
 local dapui = require("dapui")
 local dapgo = require("dap-go")
--- Dùng debugpy được cài bởi Mason
-local mason_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
 
-vim.fn.sign_define("DapBreakpoint", { text = "􀊖", texthl = "", linehl = "", numhl = "" })
+--local mason_path = vim.fn.stdpath("data") .. "/mason/packages/debugpy/venv/bin/python"
 
-dap.adapters.python = {
-	type = "executable",
-	command = mason_path, -- Đường dẫn đến debugpy từ Mason
-	args = { "-m", "debugpy.adapter" },
-}
-
-dap.configurations.python = {
-	{
-		type = "python",
-		request = "launch",
-		name = "Launch file",
-		program = "${file}", -- File hiện tại
-		pythonPath = function()
-			return mason_path -- Thay đổi nếu dùng virtual environment hoặc python khác
-		end,
-	},
-}
+vim.fn.sign_define("DapBreakpoint", { text = "🔴", texthl = "", linehl = "", numhl = "" })
 
 dapgo.setup({
 	dap_configurations = {

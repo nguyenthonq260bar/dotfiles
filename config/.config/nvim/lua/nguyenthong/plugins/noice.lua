@@ -6,7 +6,7 @@ vim.notify = require("notify") -- thay notify mặc định bằng plugin notify
 
 require("noice").setup({
 	stages = "fade_in_slide_out", -- hiệu ứng
-	timeout = 2300, -- tự tắt sau 3s
+	timeout = 100, -- tự tắt sau 1s
 	lsp = {
 		-- override markdown rendering so that **cmp** and other plugins use **Treesitter**
 		override = {
@@ -16,6 +16,7 @@ require("noice").setup({
 		},
 	},
 	-- you can enable a preset for easier configuration
+
 	presets = {
 		bottom_search = true, -- use a classic bottom cmdline for search
 		command_palette = true, -- position the cmdline and popupmenu together

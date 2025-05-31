@@ -10,7 +10,7 @@ after-login-command = []
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
-  'exec-and-forget borders active_color=0xffe1e3e4 inactive_color=0xff494d64 width=5.0'
+    'exec-and-forget borders active_color=0xff9ece6a inactive_color=0xff494d64 width=5.0'
 ]
 
 # Start AeroSpace at login
@@ -49,6 +49,7 @@ automatically-unhide-macos-hidden-apps = false
 # See https://nikitabobko.github.io/AeroSpace/guide#key-mapping
 [key-mapping]
     preset = 'qwerty'
+
 
 # Gaps between windows (inner-*) and between monitor edges (outer-*).
 # Possible values:
@@ -99,6 +100,8 @@ automatically-unhide-macos-hidden-apps = false
     # '''
 
 
+
+   
     # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#focus
@@ -143,9 +146,9 @@ automatically-unhide-macos-hidden-apps = false
     alt-shift-d = 'move-node-to-workspace D'
     alt-shift-f = 'move-node-to-workspace F'
 
-    alt-shift-q = 'move-node-to-workspace Q'
+    alt-shift-q = ['move-node-to-workspace Q', 'workspace Q']
     alt-shift-w = ['move-node-to-workspace Work', 'workspace Work']
-    alt-shift-e = 'move-node-to-workspace E'
+    alt-shift-e = ['move-node-to-workspace E', 'workspace E']
     alt-shift-r = 'move-node-to-workspace R'
 
     alt-shift-z = 'move-node-to-workspace Zalo'
@@ -157,9 +160,7 @@ automatically-unhide-macos-hidden-apps = false
 
     # See: https://nikitabobko.github.io/AeroSpace/commands#mode
     alt-shift-semicolon = 'mode service'
-
-
-
+    alt-m = 'mode play'
 
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
@@ -195,9 +196,13 @@ automatically-unhide-macos-hidden-apps = false
 
   h = ['layout tiles horizontal vertical', 'mode main']
   v = ['layout accordion horizontal vertical','mode main']
-    
-  
 
+  alt-h = 'move left'
+  alt-j = 'move down'
+  alt-k = 'move up'
+  alt-l = 'move right'
+
+  m = ['mode main']
 
 
 [[on-window-detected]]
@@ -223,3 +228,11 @@ run = "move-node-to-workspace Zalo"
 if.app-id = 'com.apple.finder '
 run = "move-node-to-workspace F"
 
+[[on-window-detected]]
+if.app-id = 'com.apple.Preview'
+run = ['layout floating']
+
+
+[[on-window-detected]]
+if.app-id = 'com.apple.finder'
+run = ['layout floating']
