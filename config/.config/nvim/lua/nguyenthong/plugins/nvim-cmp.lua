@@ -92,8 +92,7 @@ cmp.setup({
 		format = function(entry, vim_item)
 			vim_item.kind = (kind_icons[vim_item.kind] or "Foo") .. " " .. vim_item.kind
 			local source = entry.source.name
-			vim_item.menu = " " .. kind_icons[source]
-
+			vim_item.menu = kind_icons[source] and (" " .. kind_icons[source]) or nil
 			local item = entry:get_completion_item()
 
 			if item.detail then
@@ -132,7 +131,7 @@ cmp.setup({
 		["|"] = cmp.mapping.abort(),
 		["<C-c>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
-		["<C-;>"] = function(fallback)
+		["<C-.>"] = function(fallback)
 			if luasnip.in_snippet() then
 				luasnip.unlink_current()
 			else
@@ -147,7 +146,7 @@ cmp.setup({
 				return require("cmp").lsp.CompletionItemKind.Text ~= entry:get_kind()
 			end,
 		},
-		--{ name = "buffer" },
+		{ name = "buffer" },
 		{ name = "path" },
 		{ name = "luasnip" },
 	}),

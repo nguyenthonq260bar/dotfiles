@@ -232,7 +232,18 @@ run = "move-node-to-workspace F"
 if.app-id = 'com.apple.Preview'
 run = ['layout floating']
 
-
 [[on-window-detected]]
 if.app-id = 'com.apple.finder'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.Terminal'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.googlecode.iterm2'
+run = ['layout floating']
+
+[[on-window-detected]]
+if.app-id = 'com.apple.TextEdit'
 run = ['layout floating']

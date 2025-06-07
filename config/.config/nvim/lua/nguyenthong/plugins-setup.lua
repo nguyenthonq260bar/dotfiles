@@ -38,6 +38,11 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim")
 
 	-- Giao diện và UI - colorscheme
+
+	use("Shatur/neovim-ayu")
+	use("aliqyan-21/darkvoid.nvim")
+	use("marko-cerovac/material.nvim")
+
 	use("bluz71/vim-nightfly-guicolors") -- Giao diện màu "nightfly"
 	use("kyazdani42/nvim-web-devicons") -- Biểu tượng cho UI
 	use("nvim-lualine/lualine.nvim") -- Thanh trạng thái đẹp
@@ -77,6 +82,7 @@ return packer.startup(function(use)
 			require("telescope").setup({})
 		end,
 	})
+	--
 	-- Công cụ chỉnh sửa -- surround
 	--   surr*ound_words             ysiw)           (surround_words)
 	--   *make strings               ys$"            "make strings"
@@ -236,6 +242,19 @@ return packer.startup(function(use)
 		end,
 	})
 	use("datsfilipe/vesper.nvim")
+
+	use({
+		"SmiteshP/nvim-navic",
+		dependencies = { "neovim/nvim-lspconfig" },
+		config = function()
+			require("nvim-navic").setup({
+				highlight = true,
+				separator = " > ",
+				depth_limit = 5,
+			})
+		end,
+	})
+
 	if packer_bootstrap then
 		require("packer").sync()
 	end

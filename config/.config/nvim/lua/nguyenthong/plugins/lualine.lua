@@ -2,21 +2,21 @@
 -- Author: shadmansaleh
 -- Credit: glepnir
 local lualine = require("lualine")
-
+local navic = require("nvim-navic")
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
-  bg       = '#202328',
-  fg       = '#bbc2cf',
-  yellow   = '#ECBE7B',
-  cyan     = '#008080',
-  darkblue = '#081633',
-  green    = '#98be65',
-  orange   = '#FF8800',
-  violet   = '#a9a1e1',
-  magenta  = '#c678dd',
-  blue     = '#51afef',
-  red      = '#ec5f67',
+  bg       = "#202328",
+  fg       = "#bbc2cf",
+  yellow   = "#ECBE7B",
+  cyan     = "#008080",
+  darkblue = "#081633",
+  green    = "#98be65",
+  orange   = "#FF8800",
+  violet   = "#a9a1e1",
+  magenta  = "#c678dd",
+  blue     = "#51afef",
+  red      = "#ec5f67",
 }
 
 local conditions = {
@@ -33,11 +33,28 @@ local conditions = {
 	end,
 }
 
+function Copilot_status()
+	if _G.copilot_enabled then
+		return "" -- hoặc dùng icon khác: 
+	else
+		return ""
+	end
+end
+
+function DisplayRecording()
+	local reg = vim.fn.reg_recording()
+	if reg ~= "" then
+		return "Recording @" .. reg
+	end
+	return ""
+end
+
 -- Config
 local config = {
 	options = {
 		-- Disable sections and component separators
 		component_separators = "",
+		globalstatus = true,
 		section_separators = "",
 		theme = {
 			-- We are going to use lualine_c an lualine_x as left and
@@ -147,6 +164,18 @@ ins_left({
 	},
 })
 
+ins_left({ Copilot_status })
+
+ins_left({
+	function()
+		return navic.get_location()
+	end,
+	cond = function()
+		return navic.is_available()
+	end,
+	color = { fg = colors.cyan },
+})
+
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
 ins_left({
@@ -208,6 +237,8 @@ ins_right({
 	},
 	cond = conditions.hide_in_width,
 })
+
+ins_right({ DisplayRecording })
 
 ins_right({
 	function()

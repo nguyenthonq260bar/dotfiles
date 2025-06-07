@@ -1,5 +1,6 @@
 -- Cấu hình colorscheme
-local colorscheme = "tokyonight-night"
+local colorscheme = "ayu-dark" -- Chọn một trong các theme sau:
+
 -- theme1: nightfly
 -- theme2: tokyonight
 -- theme3: catppuccin
@@ -7,11 +8,15 @@ local colorscheme = "tokyonight-night"
 -- theme5: onedark
 -- theme6: oxocarbon
 -- theme7: evergarden
+-- theme8: vesper
+-- theme9: ayu-dark
 
+---@diagnostic disable
 local status, _ = pcall(vim.cmd, "colorscheme " .. colorscheme)
 
 if not status then
 	vim.notify("colorscheme " .. colorscheme .. " not found!")
+	vim.cmd("colorscheme tokyonight-night") -- fallback to default colorscheme
 	return
 end
 

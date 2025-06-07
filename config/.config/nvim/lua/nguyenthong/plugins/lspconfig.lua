@@ -82,7 +82,8 @@ lspconfig.lua_ls.setup({
 				version = "LuaJIT", -- Đảm bảo bạn đang dùng LuaJIT nếu là Neovim
 			},
 			diagnostics = {
-				globals = { "vim" }, -- Nhận diện biến `vim`
+				-- Thêm global để không báo lỗi biến vim undefined
+				globals = { "vim" },
 			},
 			workspace = {
 				library = vim.api.nvim_get_runtime_file("", true), -- Nhận diện thư viện runtime của Neovim
@@ -93,6 +94,7 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
+
 -- Cấu hình LSP cho HTML
 lspconfig.html.setup({
 	capabilities = capabilities,
