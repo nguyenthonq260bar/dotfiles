@@ -13,6 +13,12 @@ obsidian.setup({
 	daily_notes = {
 		folder = "notes/dailies",
 	},
+	note_frontmatter_func = function(note)
+		return {
+			id = note.id,
+			tags = note.tags,
+		}
+	end,
 
 	log_level = vim.log.levels.ERROR,
 	ui = {

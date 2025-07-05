@@ -3,9 +3,8 @@ local opt = vim.opt -- for conciseness
 -- line numbers
 opt.relativenumber = true
 opt.number = true
-opt.virtualedit = "onemore"
-
-vim.o.startofline = false
+vim.opt.scrolloff = 5
+vim.opt.virtualedit = "onemore"
 
 opt.fillchars = { eob = " " }
 

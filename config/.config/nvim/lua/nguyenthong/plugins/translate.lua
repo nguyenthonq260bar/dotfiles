@@ -88,6 +88,8 @@ end
 
 -- Tạo lệnh người dùng để gọi chức năng
 vim.api.nvim_create_user_command("TranslateFromRegister", translate_from_register, {})
+-- Thiết lập phím tắt để gọi lệnh dịch từ Register
+vim.keymap.set("n", "-", "<cmd>TranslateFromRegister<CR>", { noremap = true, silent = true })
 
 --vim.keymap.set("n", "*", translate_from_register)
 

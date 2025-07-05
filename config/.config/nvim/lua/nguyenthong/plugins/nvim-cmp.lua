@@ -129,9 +129,9 @@ cmp.setup({
 		--["<C-j>"] = cmp.mapping.select_next_item(),
 		["<C-Space>"] = cmp.mapping.complete(),
 		["|"] = cmp.mapping.abort(),
-		["<C-c>"] = cmp.mapping.abort(),
+		--["<C-c>"] = cmp.mapping.abort(),
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
-		["<C-.>"] = function(fallback)
+		["<C-c>"] = function(fallback)
 			if luasnip.in_snippet() then
 				luasnip.unlink_current()
 			else

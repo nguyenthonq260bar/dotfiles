@@ -1,8 +1,8 @@
 local wezterm = require("wezterm")
-local themes = require("/Users/nguyenthong/dotfiles/wezterm/colors_scheme/themes")
+--local themes = require("/Users/nguyenthong/dotfiles/wezterm/colors_scheme/themes")
 local config = wezterm.config_builder()
 
-config.color_schemes = themes
+--config.color_schemes = themes
 config.color_scheme = "lovelace" -- ặc bạn có thể thay đổi sang theme khác như rose-pine
 config.colors = {
 	background = "1a1b26", -- Màu nền tokyonight-night
@@ -14,15 +14,15 @@ config.font = wezterm.font_with_fallback({
 	"JetBrains Mono",
 	"Monolisa",
 	"Maple Mono",
-	"FiraCode Nerd Font", -- Phông chữ dự phòng
+	"FiraCode Nerd Font",
 	"Hack Nerd Font",
-	"SF Pro", -- Phông chữ dự phòng
+	"SF Pro",
 })
 
 config.default_cursor_style = "BlinkingBlock"
 
 config.bold_brightens_ansi_colors = false
-config.font_size = 13.0
+config.font_size = 15.0
 config.line_height = 1.2
 config.window_background_opacity = 1
 
@@ -44,6 +44,10 @@ config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 config.initial_cols = 105
 config.initial_rows = 33
+
+config.animation_fps = 120
+config.max_fps = 120
+config.front_end = "WebGpu" -- nếu có hỗ trợ
 
 config.enable_tab_bar = false
 config.window_padding = {

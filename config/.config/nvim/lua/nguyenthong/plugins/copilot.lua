@@ -16,7 +16,7 @@ chat.setup({
 	},
 })
 
--- Tạo biến lưu trạng thái
+-- Tắt Copilot ngay khi mở Neovim
 _G.copilot_enabled = true
 
 -- Keymap để bật / tắt Copilot

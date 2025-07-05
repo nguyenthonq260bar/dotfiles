@@ -2,7 +2,6 @@
 -- Author: shadmansaleh
 -- Credit: glepnir
 local lualine = require("lualine")
-local navic = require("nvim-navic")
 -- Color table for highlights
 -- stylua: ignore
 local colors = {
@@ -99,7 +98,7 @@ ins_left({
 	function()
 		return "▊"
 	end,
-	color = { fg = colors.green }, -- Sets highlighting of component
+	color = { fg = colors.orange }, -- Sets highlighting of component
 	padding = { left = 0, right = 1 }, -- We don't need space before this
 })
 
@@ -166,16 +165,6 @@ ins_left({
 
 ins_left({ Copilot_status })
 
-ins_left({
-	function()
-		return navic.get_location()
-	end,
-	cond = function()
-		return navic.is_available()
-	end,
-	color = { fg = colors.cyan },
-})
-
 -- Insert mid section. You can make any number of sections in neovim :)
 -- for lualine it's any number greater then 2
 ins_left({
@@ -202,7 +191,7 @@ ins_left({
 		return msg
 	end,
 	icon = " LSP:",
-	color = { fg = "#ffffff", gui = "bold" },
+	color = { fg = colors.orange, gui = "bold" },
 })
 
 -- Add components to right sections
@@ -244,7 +233,7 @@ ins_right({
 	function()
 		return "▊"
 	end,
-	color = { fg = colors.green },
+	color = { fg = colors.orange },
 	padding = { left = 1 },
 })
 

@@ -1,3 +1,4 @@
+-- Tự động cài đặt Packer nếu chưa có
 local ensure_packer = function()
 	local fn = vim.fn
 	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
@@ -17,6 +18,7 @@ local ensure_packer = function()
 end
 local packer_bootstrap = ensure_packer()
 
+-- Tự động chạy PackerCompile khi lưu file này
 vim.cmd([[
   augroup packer_user_config
     autocmd!
@@ -24,119 +26,48 @@ vim.cmd([[
   augroup end
 ]])
 
+-- Khởi tạo plugin
 local status, packer = pcall(require, "packer")
 if not status then
 	return
 end
 
--- Khai báo plugin
 return packer.startup(function(use)
-	-- Quản lý plugin với Packer
+	-- Quản lý plugin
 	use("wbthomason/packer.nvim")
 
-	-- Plugin hỗ trợ Lua
+	-- Thư viện Lua
 	use("nvim-lua/plenary.nvim")
 
-	-- Giao diện và UI - colorscheme
-
+	-- Giao diện / UI - theme
+	use("echasnovski/mini.icons")
 	use("Shatur/neovim-ayu")
 	use("aliqyan-21/darkvoid.nvim")
 	use("marko-cerovac/material.nvim")
-
-	use("bluz71/vim-nightfly-guicolors") -- Giao diện màu "nightfly"
-	use("kyazdani42/nvim-web-devicons") -- Biểu tượng cho UI
-	use("nvim-lualine/lualine.nvim") -- Thanh trạng thái đẹp
-	use("folke/tokyonight.nvim") -- Giao diện màu "tokyonight"
+	use("bluz71/vim-nightfly-guicolors")
+	use("rose-pine/neovim")
+	use("kyazdani42/nvim-web-devicons")
+	use("nvim-lualine/lualine.nvim")
+	use("folke/tokyonight.nvim")
 	use("xiyaowong/transparent.nvim")
 	use({ "catppuccin/nvim", as = "catppuccin" })
-	use({ "goolord/alpha-nvim", dependencies = { "nvim-tree/nvim-web-devicons" } })
 	use({ "nyoom-engineering/oxocarbon.nvim" })
-	use({ "nanozuki/tabby.nvim", dependencies = "nvim-tree/nvim-web-devicons" })
-
+	use({ "diegoulloao/neofusion.nvim" })
 	use({
-		"nvim-treesitter/nvim-treesitter",
-		run = function()
-			local ts_update = require("nvim-treesitter.install").update({ with_sync = true })
-			ts_update()
-		end,
-	})
-	use("navarasu/onedark.nvim")
-	use({ "diegoulloao/neofusion.nvim" }) --giao dien mau neofusion
-
-	--Điều hướng
-	use("christoomey/vim-tmux-navigator") -- Di chuyển giữa tmux và Vim dễ dàng
-	use("szw/vim-maximizer") -- Phóng to/phục hồi cửa sổ
-	use("nvim-tree/nvim-tree.lua") -- Trình quản lý file dạng cây
-
-	-- Tìm kiếm và thay thế
-	use({
-		"nvim-telescope/telescope.nvim", -- Công cụ tìm kiếm mạnh mẽ
-		requires = {
-			"nvim-lua/plenary.nvim", -- Yêu cầu bởi telescope
-			{
-				"nvim-telescope/telescope-fzf-native.nvim", -- Tăng tốc tìm kiếm với FZF
-				run = "make",
-			},
-		},
+		"olivercederborg/poimandres.nvim",
 		config = function()
-			require("telescope").setup({})
+			require("poimandres").setup()
 		end,
 	})
-	--
-	-- Công cụ chỉnh sửa -- surround
-	--   surr*ound_words             ysiw)           (surround_words)
-	--   *make strings               ys$"            "make strings"
-	--   [delete ar*ound me!]        ds]             delete around me!
-	--   remove <b>HTML t*ags</b>    dst             remove HTML tags
-	--   'change quot*es'            cs'"            "change quotes"
-	--   <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
-	--   delete(functi*on calls)     dsf             function calls
-	use({
-		"kylechui/nvim-surround",
-		tag = "*", -- Use for stability; omit to use `main` branch for the latest features
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
-	})
-	use("vim-scripts/ReplaceWithRegister") -- Thay thế văn bản với nội dung trong register
-	use("numToStr/Comment.nvim") -- Bình luận/uncomment code nhanh chóng
+	use({ "comfysage/evergarden" })
+	use({ "datsfilipe/vesper.nvim" })
+	use({ "nanozuki/tabby.nvim", requires = "nvim-tree/nvim-web-devicons" })
+	use({ "goolord/alpha-nvim", requires = "nvim-tree/nvim-web-devicons" })
 
-	-- Hỗ trợ LSP và Autocompletion
-	use("neovim/nvim-lspconfig") -- Cấu hình LSP
-	use("williamboman/mason.nvim") -- Quản lý LSP và công cụ bổ trợ
-	use("williamboman/mason-lspconfig.nvim") -- Tự động cấu hình LSP từ Mason
-	use("hrsh7th/nvim-cmp") -- Plugin chính cho autocompletion
-	use("hrsh7th/cmp-nvim-lsp") -- Nguồn từ LSP
-	use("hrsh7th/cmp-buffer") -- Nguồn từ buffer hiện tại
-	use("hrsh7th/cmp-path") -- Nguồn từ đường dẫn file
-	use("L3MON4D3/LuaSnip") -- Plugin snippet
-	use("saadparwaiz1/cmp_luasnip") -- Tích hợp LuaSnip với nvim-cmp
-	use("rafamadriz/friendly-snippets") -- Bộ snippet sẵn có
-
-	use("stevearc/conform.nvim")
-
-	-- Plugin tiện ích khác
-	use("otavioschwanck/arrow.nvim") -- Hỗ trợ điều hướng tốt hơn
-
-	use({
-		"windwp/nvim-autopairs",
-		event = "InsertEnter",
-		config = function()
-			require("nvim-autopairs").setup({})
-		end,
-	})
-
-	--debugger
-	use({
-		"mfussenegger/nvim-dap",
-		"leoluz/nvim-dap-go",
-	})
-	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } })
-
+	-- Thanh trạng thái, cuộn, highlight
+	use("lukas-reineke/indent-blankline.nvim")
+	use("karb94/neoscroll.nvim")
 	use("sphamba/smear-cursor.nvim")
-
 	use({
 		"gen740/SmoothCursor.nvim",
 		config = function()
@@ -144,35 +75,51 @@ return packer.startup(function(use)
 		end,
 	})
 
-	use("lukas-reineke/indent-blankline.nvim")
-	use("gelguy/wilder.nvim")
-	use("max397574/better-escape.nvim")
-	use("comfysage/evergarden")
-	--plugin for obsidian
+	-- Cây cấu trúc file
+	use("nvim-tree/nvim-tree.lua")
+
+	-- Điều hướng và chuyển đổi cửa sổ
+	use("christoomey/vim-tmux-navigator")
+	use("szw/vim-maximizer")
+	use("otavioschwanck/arrow.nvim")
+
+	-- Tìm kiếm nâng cao
 	use({
-		"epwalsh/obsidian.nvim",
-		tag = "*",
+		"nvim-telescope/telescope.nvim",
 		requires = {
 			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
 		},
 	})
+
+	-- Công cụ hỗ trợ soạn thảo
+	use("vim-scripts/ReplaceWithRegister")
+	use("numToStr/Comment.nvim")
+	use("max397574/better-escape.nvim")
+	use("windwp/nvim-autopairs")
+	use({
+		"kylechui/nvim-surround",
+		tag = "*",
+		config = function()
+			require("nvim-surround").setup()
+		end,
+	})
+
+	-- Rainbow Delimiters
+	use("HiPhish/rainbow-delimiters.nvim")
+
+	-- Plugin hỗ trợ Markdown/Obsidian
+	use({ "epwalsh/obsidian.nvim", tag = "*", requires = { "nvim-lua/plenary.nvim" } })
 	use({
 		"MeanderingProgrammer/render-markdown.nvim",
 		after = { "nvim-treesitter" },
-		requires = { "echasnovski/mini.nvim", opt = true }, -- if you use the mini.nvim suite
-		-- requires = { 'echasnovski/mini.icons', opt = true }, -- if you use standalone mini plugins
-		-- requires = { 'nvim-tree/nvim-web-devicons', opt = true }, -- if you prefer nvim-web-devicons
+		requires = { "echasnovski/mini.nvim", opt = true },
 		config = function()
-			require("render-markdown").setup({})
+			require("render-markdown").setup()
 		end,
 	})
-	--go
-	use({
-		"devkvlt/go-tags.nvim",
-		requires = { "nvim-treesitter/nvim-treesitter" },
-	})
 
-	-- Cài đặt nvim-colorizer.lua
+	-- Highlight màu sắc
 	use({
 		"norcalli/nvim-colorizer.lua",
 		config = function()
@@ -180,38 +127,35 @@ return packer.startup(function(use)
 		end,
 	})
 
+	-- LSP và Tự động hoàn thành
+	use("neovim/nvim-lspconfig")
+	use("williamboman/mason.nvim")
+	use("williamboman/mason-lspconfig.nvim")
+	use("hrsh7th/nvim-cmp")
+	use("hrsh7th/cmp-nvim-lsp")
+	use("hrsh7th/cmp-buffer")
+	use("hrsh7th/cmp-path")
+	use("L3MON4D3/LuaSnip")
+	use("saadparwaiz1/cmp_luasnip")
+	use("rafamadriz/friendly-snippets")
+
+	-- Định dạng mã
+	use("stevearc/conform.nvim")
+
+	-- Treesitter
 	use({
-		"olivercederborg/poimandres.nvim",
-		config = function()
-			require("poimandres").setup({
-				-- leave this setup function empty for default config
-				-- or refer to the configuration section
-				-- for configuration options
-			})
+		"nvim-treesitter/nvim-treesitter",
+		run = function()
+			require("nvim-treesitter.install").update({ with_sync = true })
 		end,
 	})
 
-	use({
-		"folke/noice.nvim",
-		opts = {
-			-- add any options here
-		},
-		dependencies = {
-			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
-			"MunifTanjim/nui.nvim",
-			-- OPTIONAL:
-			--   `nvim-notify` is only needed, if you want to use the notification view.
-			--   If not available, we use `mini` as the fallback
-			"rcarriga/nvim-notify",
-		},
-	})
+	-- Debugger
+	use({ "mfussenegger/nvim-dap" })
+	use({ "leoluz/nvim-dap-go" })
+	use({ "rcarriga/nvim-dap-ui", requires = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" } })
 
-	use("MunifTanjim/nui.nvim")
-	use("rcarriga/nvim-notify")
-	use("karb94/neoscroll.nvim")
-
-	use("HiPhish/rainbow-delimiters.nvim")
-
+	-- LazyGit
 	use({
 		"kdheepak/lazygit.nvim",
 		requires = {
@@ -223,6 +167,7 @@ return packer.startup(function(use)
 		end,
 	})
 
+	-- Copilot + Chat
 	use("github/copilot.vim")
 	use({
 		"CopilotC-Nvim/CopilotChat.nvim",
@@ -230,31 +175,50 @@ return packer.startup(function(use)
 			{ "github/copilot.vim" },
 			{ "nvim-lua/plenary.nvim" },
 		},
-		run = "make tiktoken", -- tương đương `build` trong Lazy
+		run = "make tiktoken",
 	})
+
+	-- which-key
+	use("folke/which-key.nvim")
+
+	-- Barbecue, Navic, Navbuddy
+	use({
+		"utilyre/barbecue.nvim",
+		tag = "*",
+		requires = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons",
+		},
+		after = "nvim-web-devicons",
+	})
+	use({
+		"SmiteshP/nvim-navbuddy",
+		requires = {
+			"neovim/nvim-lspconfig",
+			"SmiteshP/nvim-navic",
+			"MunifTanjim/nui.nvim",
+			"numToStr/Comment.nvim",
+			"nvim-telescope/telescope.nvim",
+		},
+	})
+
+	-- Go tools
+	use({
+		"devkvlt/go-tags.nvim",
+		-- requires = { "nvim-treesitter/nvim-treesitter" },
+	})
+
+	use({ "noahfrederick/vim-hemisu" })
 
 	use({
-		"folke/which-key.nvim",
-		config = function()
-			require("which-key").setup({
-				-- Bạn có thể thêm tùy chọn tại đây nếu muốn
-			})
-		end,
-	})
-	use("datsfilipe/vesper.nvim")
-
-	use({
-		"SmiteshP/nvim-navic",
-		dependencies = { "neovim/nvim-lspconfig" },
-		config = function()
-			require("nvim-navic").setup({
-				highlight = true,
-				separator = " > ",
-				depth_limit = 5,
-			})
-		end,
+		"folke/noice.nvim",
+		requires = {
+			"MunifTanjim/nui.nvim",
+			"rcarriga/nvim-notify",
+		},
 	})
 
+	-- Sync packer nếu lần đầu cài
 	if packer_bootstrap then
 		require("packer").sync()
 	end

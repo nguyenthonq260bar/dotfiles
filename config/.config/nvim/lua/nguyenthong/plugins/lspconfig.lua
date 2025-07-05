@@ -3,6 +3,9 @@ local lspconfig = require("lspconfig")
 local capabilities = require("cmp_nvim_lsp").default_capabilities()
 local mason_lspconfig = require("mason-lspconfig")
 local util = require("lspconfig.util")
+local navic = require("nvim-navic")
+local navbuddy = require("nvim-navbuddy")
+
 mason.setup({
 	ui = {
 		border = "rounded", -- Tùy chọn giao diện
@@ -46,6 +49,9 @@ lspconfig.gopls.setup({
 		})
 
 		vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, { noremap = true, silent = true }) --import library
+
+		navic.attach(client, bufnr)
+		navbuddy.attach(client, bufnr)
 	end,
 	capabilities = capabilities,
 	cmd = { "gopls" },
@@ -66,35 +72,31 @@ require("go-tags").setup({
 	},
 })
 
-lspconfig.lua_ls.setup({
-	-- on_init = function(client)
-	-- 	if client.workspace_folders then
-	-- 		local path = client.workspace_folders[1].name
-	-- 		if vim.loop.fs_stat(path .. "/.luarc.json") or vim.loop.fs_stat(path .. ".luarc.jsonc") then
-	-- 			return
-	-- 		end
-	-- 	end
-	-- end,
-
+require("lspconfig").lua_ls.setup({
 	settings = {
 		Lua = {
 			runtime = {
-				version = "LuaJIT", -- Đảm bảo bạn đang dùng LuaJIT nếu là Neovim
+				version = "LuaJIT",
 			},
 			diagnostics = {
-				-- Thêm global để không báo lỗi biến vim undefined
 				globals = { "vim" },
 			},
 			workspace = {
-				library = vim.api.nvim_get_runtime_file("", true), -- Nhận diện thư viện runtime của Neovim
+				library = vim.api.nvim_get_runtime_file("", true),
 			},
 			telemetry = {
 				enable = false,
 			},
 		},
 	},
+	on_attach = function(client, bufnr)
+		-- Chỉ attach navic nếu server hỗ trợ documentSymbolProvider
+		if client.server_capabilities.documentSymbolProvider then
+			navic.attach(client, bufnr)
+			navbuddy.attach(client, bufnr)
+		end
+	end,
 })
-
 -- Cấu hình LSP cho HTML
 lspconfig.html.setup({
 	capabilities = capabilities,
@@ -112,3 +114,9 @@ lspconfig.cssls.setup({
 		vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
 	end,
 })
+
+local navic = require("nvim-navic")
+
+require("nvim-navic").setup({})
+
+vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"

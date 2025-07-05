@@ -67,15 +67,26 @@ alias cls="clear"
 alias zshconf="nvim ~/.zshrc"
 alias nvimconf="nvim ~/.config/nvim"
 alias project='cd ~/ && cd /Users/nguyenthong/Study/Code && ls'
-alias newtmux="tmux new -s"
 alias openf='~/scripts/openf.sh'
 
 # WezTerm startup
-alias oh='cd ~/ && cat ~/dotfiles/wezterm/.wezterm_ascii.txt && l'
+alias oh='cd ~/'
 
 # Yabai
 alias startyb="yabai --start-service"
 alias stopyb="yabai --stop-service"
+
+# tmux
+alias v="fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim"
+alias newtmux="tmux new -s"
+function ta() {
+  local session
+  session=$(tmux list-sessions -F "#S" | fzf)
+  if [[ -n "$session" ]]; then
+    tmux attach -t "$session"
+  fi
+}
+
 
 # eza (ls thay thế)
 alias l="eza --icons=always"
@@ -92,6 +103,7 @@ alias lta2="eza -lTag --level=2 --icons=always"
 alias lta3="eza -lTag --level=3 --icons=always"
 
 ### 🔹 Hàm mở yazi và quay lại thư mục đã chọn
+bindkey -s '^Y' 'yazi\n'
 function f() {
 	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
 	yazi "$@" --cwd-file="$tmp"
