@@ -208,6 +208,15 @@ return packer.startup(function(use)
 		-- requires = { "nvim-treesitter/nvim-treesitter" },
 	})
 
+	use({
+		"rachartier/tiny-inline-diagnostic.nvim",
+		priority = 1000,
+		config = function()
+			require("tiny-inline-diagnostic").setup()
+			vim.diagnostic.config({ virtual_text = false }) -- Disable default virtual text
+		end,
+	})
+
 	use({ "noahfrederick/vim-hemisu" })
 
 	use({

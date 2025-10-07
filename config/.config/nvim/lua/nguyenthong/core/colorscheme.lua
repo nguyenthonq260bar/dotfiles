@@ -1,5 +1,5 @@
 -- Cấu hình colorscheme
-local colorscheme = "ayu-mirage" -- Chọn một trong các theme sau:
+local colorscheme = "tokyonight-night" -- Chọn một trong các theme sau:
 
 -- theme1: nightfly
 -- theme2: tokyonight

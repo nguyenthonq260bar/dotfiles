@@ -11,7 +11,10 @@ keymap.set({ "n", "v" }, "x", '"_x')
 keymap.set("n", "dd", '"_dd')
 
 -- Insert mode escape via 'jk'
-keymap.set("i", "jk", "<ESC>")
+--keymap.set("i", "jk", "<ESC>")
+
+vim.keymap.set("v", "k", "k", { noremap = true, silent = true })
+vim.keymap.set("v", "j", "j", { noremap = true, silent = true })
 
 -- Center search results & navigation
 keymap.set("n", "n", "nzz", { noremap = true, silent = true })
@@ -87,8 +90,8 @@ keymap.set("v", "J", ":m '>+1<CR>gv=gv", { noremap = true, silent = true })
 keymap.set("v", "K", ":m '<-2<CR>gv=gv", { noremap = true, silent = true })
 
 -- Escape in visual/x modes
-keymap.set("x", "o", "<Esc>", { noremap = true, silent = true })
-keymap.set("v", ".", "<Esc>", { noremap = true, silent = true })
+-- keymap.set("x", "o", "<Esc>", { noremap = true, silent = true })
+-- keymap.set("v", ".", "<Esc>", { noremap = true, silent = true })
 
 -- Quick text-object selection: inside double quotes
 keymap.set("n", "<leader>tt", function()

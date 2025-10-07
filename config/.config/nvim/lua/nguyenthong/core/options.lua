@@ -5,6 +5,7 @@ opt.relativenumber = true
 opt.number = true
 vim.opt.scrolloff = 5
 vim.opt.virtualedit = "onemore"
+vim.opt.laststatus = 0
 
 opt.fillchars = { eob = " " }
 

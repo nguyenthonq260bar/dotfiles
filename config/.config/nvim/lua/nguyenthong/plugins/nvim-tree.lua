@@ -12,6 +12,15 @@ vim.cmd([[ highlight NvimTreeWinSeparator guifg=#ffffff guibg=None]])
 vim.cmd([[ highlight VertSplit guifg=#ffffff guibg=#ff0000 ]]) -- Viền màu trắng, nền đỏ
 
 nvimtree.setup({
+	hijack_directories = {
+		enable = false, -- tắt hijack khi mở thư mục
+		auto_open = true, -- nếu enable, auto_open có thể bật tree
+	},
+
+	open_on_setup = false, -- Không tự bật khi mở nvim
+	open_on_tab = false, -- Không tự bật khi mở tab
+	hijack_cursor = true, -- tùy chọn khác, giữ con trỏ trong tree
+	update_cwd = true, -- cập nhật cwd nếu cần
 	view = {
 		float = {
 			enable = false,

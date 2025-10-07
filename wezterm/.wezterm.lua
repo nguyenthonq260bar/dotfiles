@@ -22,7 +22,7 @@ config.font = wezterm.font_with_fallback({
 config.default_cursor_style = "BlinkingBlock"
 
 config.bold_brightens_ansi_colors = false
-config.font_size = 15.0
+--config.font_size = 15.0
 config.line_height = 1.2
 config.window_background_opacity = 1
 
@@ -58,53 +58,53 @@ config.window_padding = {
 }
 
 -- Hàm tính font size phù hợp
-local function adjust_font_size_to_fit(window, pane)
+local function readjust_font_size(window, pane)
 	local window_dims = window:get_dimensions()
 	local pane_dims = pane:get_dimensions()
 
-	-- Lấy chiều cao cửa sổ (pixel)
-	local window_height_px = window_dims.pixel_height
+	local config_overrides = {}
+	local initial_font_size = 12 -- Set to your desired font size
+	config_overrides.font_size = initial_font_size
 
-	-- Lấy số dòng pane hiện tại
-	local rows = pane_dims.rows
+	local max_iterations = 5
+	local iteration_count = 0
+	local tolerance = 3
 
-	-- Hệ số dòng (line height)
-	local line_height = config.line_height or 1.0
+	-- Calculate the initial difference between window and pane heights
+	local current_diff = window_dims.pixel_height - pane_dims.pixel_height
+	local min_diff = math.abs(current_diff)
+	local best_font_size = initial_font_size
 
-	-- Chiều cao cell font hiện tại (ước lượng)
-	-- WezTerm không expose chiều cao cell trực tiếp, nên ta ước lượng:
-	-- cell_height = font_size * hệ số dòng
-	-- => font_size = cell_height / line_height
-	-- Ta sẽ tính font size mới dựa trên:
-	-- font_size_new * line_height * rows = window_height_px
-	-- => font_size_new = window_height_px / (rows * line_height)
+	-- Loop to adjust font size until the difference is within tolerance or max iterations reached
+	while current_diff > tolerance and iteration_count < max_iterations do
+		-- Increment the font size slightly
+		config_overrides.font_size = config_overrides.font_size + 0.5
+		window:set_config_overrides(config_overrides)
 
-	local font_size_new = window_height_px / (rows * line_height)
+		-- Update dimensions after changing font size
+		window_dims = window:get_dimensions()
+		pane_dims = pane:get_dimensions()
+		current_diff = window_dims.pixel_height - pane_dims.pixel_height
 
-	-- Giới hạn font size để không quá nhỏ hoặc quá lớn
-	if font_size_new < 10 then
-		font_size_new = 10
-	elseif font_size_new > 18 then
-		font_size_new = 18
+		-- Check if the current difference is the smallest seen so far
+		local abs_diff = math.abs(current_diff)
+		if abs_diff < min_diff then
+			min_diff = abs_diff
+			best_font_size = config_overrides.font_size
+		end
+
+		iteration_count = iteration_count + 1
 	end
 
-	local overrides = window:get_config_overrides() or {}
-	local current_font_size = overrides.font_size or config.font_size
-	if false then
-		print(current_font_size)
-	end
-
-	-- Cập nhật font size nếu khác font_size hiện tại
-	if math.abs(font_size_new - config.font_size) > 0.1 then
-		window:set_config_overrides({
-			font_size = font_size_new,
-		})
+	-- If no acceptable difference was found, set the font size to the best one encountered
+	if current_diff > tolerance then
+		config_overrides.font_size = best_font_size
+		window:set_config_overrides(config_overrides)
 	end
 end
 
--- Sự kiện window-resized, gọi hàm trên
 wezterm.on("window-resized", function(window, pane)
-	adjust_font_size_to_fit(window, pane)
+	readjust_font_size(window, pane)
 end)
 
 return config

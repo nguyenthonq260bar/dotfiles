@@ -6,7 +6,7 @@ local navbuddy = require("nvim-navbuddy")
 
 -- Thiết lập màu sắc cho WinBar
 local normal_bg = vim.api.nvim_get_hl(0, { name = "Normal" }).bg
-vim.api.nvim_set_hl(0, "WinBar", { bg = normal_bg, fg = "#cdd6f4" })
+vim.api.nvim_set_hl(0, "WinBar", { bg = normal_bg, fg = "#ffffff" })
 
 barbecue.setup({
 	attach_navic = true,

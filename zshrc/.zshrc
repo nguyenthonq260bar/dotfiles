@@ -1,11 +1,15 @@
-### 🔹 Powerlevel10k (nếu dùng)
+# ========================================
+# Zsh Configuration
+# ========================================
+
+### 🔹 Powerlevel10k Instant Prompt (nếu dùng)
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
 
-
-### 🔹 setup
+### 🔹 Setup
 typeset -gi FUNCNEST=1000
+export EDITOR="nvim"
 
 ### 🔹 PATH setup
 export PATH="/usr/local/bin:$PATH"
@@ -20,12 +24,10 @@ export PATH=$PATH:$GOROOT/bin:$GOPATH/bin
 export STARSHIP_CONFIG="$HOME/.starship.toml"
 eval "$(starship init zsh)"
 
-### 🔹 Zsh settings
+### 🔹 Oh My Zsh settings
 export ZSH="$HOME/.oh-my-zsh"
-export EDITOR="nvim"
 plugins=(git zsh-autosuggestions)
 
-### 🔹 Source Oh My Zsh and plugins
 source $ZSH/oh-my-zsh.sh
 source /opt/homebrew/Cellar/zsh-autosuggestions/0.7.1/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
@@ -33,7 +35,7 @@ source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 ### 🔹 Completion
 zstyle ":completion:*:commands" rehash 1
 
-### 🔹 FZF config (giữ nguyên như bạn muốn)
+### 🔹 FZF Configuration
 export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
   --color=fg:#c0caf5,fg+:#bb9af7,bg:#1a1b26,bg+:#292e42
   --color=hl:#7aa2f7,hl+:#7dcfff,info:#7aa2f7,marker:#ff9e64
@@ -46,7 +48,7 @@ export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS
   --preview='bat --style=numbers --color=always --theme=TwoDark --line-range :500 {}'
 "
 
-### 🔹 Zoxide (cd thay bằng z)
+### 🔹 Zoxide (alias z)
 eval "$(zoxide init zsh)"
 alias cd='z'
 
@@ -63,9 +65,10 @@ alias gs="git status"
 alias :q="exit"
 alias cls="clear"
 
-# Folder
+# Folder shortcuts
 alias zshconf="nvim ~/.zshrc"
-alias nvimconf="nvim ~/.config/nvim"
+# alias nvimconf="nvim ~/.config/nvim"
+alias nvimconf='nvim -c "cd ~/.config/nvim"'
 alias project='cd ~/ && cd /Users/nguyenthong/Study/Code && ls'
 alias openf='~/scripts/openf.sh'
 
@@ -76,7 +79,7 @@ alias oh='cd ~/'
 alias startyb="yabai --start-service"
 alias stopyb="yabai --stop-service"
 
-# tmux
+# tmux shortcuts
 alias v="fd --type f --hidden --exclude .git | fzf-tmux -p --reverse | xargs nvim"
 alias newtmux="tmux new -s"
 function ta() {
@@ -87,13 +90,12 @@ function ta() {
   fi
 }
 
-
 # eza (ls thay thế)
 alias l="eza --icons=always"
 alias ls="eza --icons=always"
 alias ll="eza -lg --icons=always"
 alias la="eza -lag --icons=always"
-alias lt="eza -lTg  --icons=always"
+alias lt="eza -lTg --icons=always"
 alias lt1="eza -lTg --level=1 --icons=always"
 alias lt2="eza -lTg --level=2 --icons=always"
 alias lt3="eza -lTg --level=3 --icons=always"
@@ -102,16 +104,27 @@ alias lta1="eza -lTag --level=1 --icons=always"
 alias lta2="eza -lTag --level=2 --icons=always"
 alias lta3="eza -lTag --level=3 --icons=always"
 
-### 🔹 Hàm mở yazi và quay lại thư mục đã chọn
-bindkey -s '^Y' 'yazi\n'
-function f() {
-	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
-	yazi "$@" --cwd-file="$tmp"
-	if cwd="$(command cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-		builtin cd -- "$cwd"
-	fi
-	rm -f -- "$tmp"
+### 🔹 Yazi helper
+# 🔹 Hàm mở yazi và giữ thư mục hiện tại
+# Hàm yazi với cd
+function yy() {
+    local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+    yazi "$@" --cwd-file="$tmp"
+
+    if [ -f "$tmp" ]; then
+        local cwd
+        cwd=$(<"$tmp")  # đọc thư mục mới
+        rm -f "$tmp"
+        if [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            builtin cd -- "$cwd"      # chuyển cwd trong shell hiện tại
+            zle reset-prompt          # nếu dùng ZLE, cập nhật prompt
+        fi
+    fi
 }
 
+# Tạo widget ZLE cho Ctrl+Y
+zle -N y_widget yy
+bindkey '^Y' y_widget
 
+# 🔹 FZF zsh integration
 source <(fzf --zsh)
