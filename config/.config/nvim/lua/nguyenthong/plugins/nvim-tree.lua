@@ -17,7 +17,6 @@ nvimtree.setup({
 		auto_open = true, -- nếu enable, auto_open có thể bật tree
 	},
 
-	open_on_setup = false, -- Không tự bật khi mở nvim
 	open_on_tab = false, -- Không tự bật khi mở tab
 	hijack_cursor = true, -- tùy chọn khác, giữ con trỏ trong tree
 	update_cwd = true, -- cập nhật cwd nếu cần

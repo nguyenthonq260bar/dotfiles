@@ -40,6 +40,7 @@ return packer.startup(function(use)
 	use("nvim-lua/plenary.nvim")
 
 	-- Giao diện / UI - theme
+	use("Mofiqul/dracula.nvim")
 	use("echasnovski/mini.icons")
 	use("Shatur/neovim-ayu")
 	use("aliqyan-21/darkvoid.nvim")
@@ -95,8 +96,21 @@ return packer.startup(function(use)
 	-- Công cụ hỗ trợ soạn thảo
 	use("vim-scripts/ReplaceWithRegister")
 	use("numToStr/Comment.nvim")
-	use("max397574/better-escape.nvim")
-	use("windwp/nvim-autopairs")
+	use({
+		"max397574/better-escape.nvim",
+		-- config = function()
+		-- 	require("better_escape").setup()
+		-- end,
+	})
+
+	use({
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = function()
+			require("nvim-autopairs").setup({})
+		end,
+	})
+
 	use({
 		"kylechui/nvim-surround",
 		tag = "*",
@@ -225,6 +239,11 @@ return packer.startup(function(use)
 			"MunifTanjim/nui.nvim",
 			"rcarriga/nvim-notify",
 		},
+	})
+
+	use({
+		"oribarilan/lensline.nvim",
+		tag = "2.0.0", -- or: branch = 'release/2.x' for latest non-breaking updates
 	})
 
 	-- Sync packer nếu lần đầu cài

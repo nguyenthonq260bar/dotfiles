@@ -11,7 +11,7 @@ keymap.set({ "n", "v" }, "x", '"_x')
 keymap.set("n", "dd", '"_dd')
 
 -- Insert mode escape via 'jk'
---keymap.set("i", "jk", "<ESC>")
+keymap.set("i", "jk", "<ESC>")
 
 vim.keymap.set("v", "k", "k", { noremap = true, silent = true })
 vim.keymap.set("v", "j", "j", { noremap = true, silent = true })
